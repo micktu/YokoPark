@@ -1,0 +1,326 @@
+@font-face {
+    font-family: 'TF2Build';
+    src: url('../fonts/tf2build-webfont.woff2') format('woff2'),
+         url('../fonts/tf2build-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.map-container {
+  width: 980px;
+  height: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.map-container * {
+  box-sizing: border-box;
+}
+
+.map-container h3 {
+  font-family: "TF2Build", sans-serif;
+  font-size: 14pt;
+  color: #eb2944;
+  text-align: center;
+}
+
+.map-container p {
+  font-family: "Helvetiva", "Arial", sans-serif;
+  font-size: 14pt;
+  line-height: 16pt;
+  color: #4c4c4c;
+  margin: 0;
+}
+
+.map-container .ui {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  background: url('../images/layout/frame.png');
+}
+
+.map-container .logo {
+  position: absolute;
+  top: 26px;
+  left: 68px;
+  width: 186px;
+  height: 122px;
+  background: url('../images/layout/logo.png');
+}
+
+.map-container .window {
+  position: absolute;
+  transition: opacity 0.3s;  
+}
+
+.map-container .window.small {
+  top: 37px;
+  right: 72px;
+  width: 330px;
+  height: 109px;
+  background: url('../images/layout/window-location-small.png');
+}
+
+.map-container .window.small h3 {
+  margin-top: 24px;
+}
+
+.map-container .window .button {
+  position: absolute;
+  cursor: default;
+}
+
+.map-container .window .button h3 {
+  font-size: 12pt;
+  color: #ffffff;
+  text-align: center !important;
+}
+
+.map-container .window .button.left {
+  bottom: -5px;
+  left: 26px;
+  width: 97px;
+  height: 50px;
+  background: url('../images/layout/button-left-active.png');
+}
+
+.map-container .window .button.left h3 {
+  margin-top: 20px;
+}
+
+.map-container .window .button.right {
+  bottom: -6px;
+  right: 27px;
+  width: 101px;
+  height: 51px;
+  background: url('../images/layout/button-right-active.png');
+}
+
+.map-container .window .button.right h3 {
+  margin-top: 14px;
+}
+
+.map-container .window .button.close {
+  top: 10px;
+  right: 10px;
+  width: 37px;
+  height: 37px;
+  background: url('../images/layout/button-close-big.png');
+}
+
+.map-container .window .button.prev {
+  width: 23px;
+  height: 55px;
+  background: url('../images/layout/button-prev.png');
+}
+
+.map-container .window .button.next {
+  width: 24px;
+  height: 57px;
+  background: url('../images/layout/button-next.png');
+}
+
+.map-container .window .button.close.small {
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  background: url('../images/layout/button-close-small.png');
+}
+
+.map-container .window.location {
+  top: 76px;
+  left: 377px;
+  width: 451px;
+  height: 227px;
+  background: url('../images/layout/window-location.png');
+  padding: 0px 30px;
+}
+
+.map-container .window.location h3 {
+  text-align: left;
+  margin: 27px 0  14px;
+}
+
+.map-container .window.location .button.left {
+  bottom: 1px;
+  left: 100px;
+}
+
+.map-container .window.location .button.right {
+  bottom: 18px;
+  right: 84px;
+}
+
+.map-container .window.location .button.close {
+  top: 20px;
+  right: 20px;
+}
+
+.map-container .window.episode {
+  top: 155px;
+  left: 154px;
+  width: 727px;
+  height: 530px;
+  background: url('../images/layout/window-episode.png');
+  padding: 0 86px;
+}
+
+.map-container .window.episode h3 {
+  text-align: left;
+  margin: 30px 0 0;
+  font-size: 20pt;
+}
+
+.map-container .window.episode .button.close {
+  top: 22px;
+  right: 29px;
+}
+
+.map-container .window.episode iframe {
+  display: block;
+  margin-top: 8px;
+}
+
+.map-container .window.episode p {
+  margin-top: 14px;
+  font-size: 10pt;
+  line-height: 14pt;
+}
+
+.map-container .window.episode .button.prev {
+  top: 205px;
+  left: 30px;
+}
+
+.map-container .window.episode .button.next {
+  top: 205px;
+  right: 37px;
+}
+
+.map-container .window.game {
+  top: 154px;
+  left: 105px;
+  width: 825px;
+  height: 533px;
+  background: url('../images/layout/window-game.png');
+  padding: 0 86px 0 66px;
+}
+
+.map-container .window.game h3 {
+  text-align: left;
+  margin: 35px 0 0;
+  font-size: 24pt;
+}
+
+.map-container .window.game .button.close {
+  top: 22px;
+  right: 29px;
+}
+
+.map-container .window.game p {
+  margin-top: 10px;
+  padding-left: 292px;
+  font-size: 10pt;
+  line-height: 14pt;
+}
+
+.map-container .window.game .button.prev {
+  top: 205px;
+  left: 25px;
+}
+
+.map-container .window.game .button.next {
+  top: 205px;
+  right: 37px;
+}
+
+.map-container .window.game .button.long {
+  top: 280px;
+  left: 77px;
+  width: 263px;
+  height: 45px;
+  background: url("../images/layout/button-long.png");
+}
+
+.map-container .window.game .button.long h3 {
+  margin: 12px 0 0;
+  font-size: 13pt;
+}
+
+.map-container .window.game .illustration {
+  position: absolute;
+  top: 90px;
+  left: 70px;
+}
+
+.map-container .window.game .items {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  text-align: center;
+}
+
+.map-container .window.game .item {
+  padding: 0 20px;
+}
+
+.map-container .counter {
+  position: absolute;
+  bottom: 4px;
+  left: 6px;
+  width: 122px;
+  height: 75px;
+  background: url("../images/layout/counter.png");
+}
+
+.map-container .counter .help {
+  position: absolute;
+  bottom: 0;
+  right: -5px;
+  width: 43px;
+  height: 34px;
+  background: url("../images/layout/counter-help.png");
+}
+
+.map-container .counter .count {
+  position: absolute;
+  width: 100%;
+  top: 3px;
+  left: 0;
+  text-align: center;
+}
+
+.map-container .counter span {
+  font-family: "TF2Build", sans-serif;
+  color: #ffffff;
+  font-size: 38pt;
+  text-shadow: 2px 2px rgba(0,0,0,0.3);
+}
+
+.map-container .preloader {
+  position: absolute;
+  z-index: 100;
+  width: 980px;
+  height: 700px;
+  background: url("../images/layout/preloader-splash.png")
+}
+
+.map-container .preloader .frame {
+  position: absolute;
+  width: 980px;
+  height: 700px;
+  background: url("../images/layout/frame.png")
+}
+
+.map-container .preloader .bar {
+  position: absolute;
+  bottom: 71px;
+  left: 352px;
+  width: 292px;
+  height: 45px;
+  background: url("../images/layout/preloader-bar.png")
+}

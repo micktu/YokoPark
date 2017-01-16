@@ -1,0 +1,83 @@
+<!doctype html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"
+  />
+  <title>YokoPark</title>
+  <link rel="stylesheet" type="text/css" href="app.css">
+</head>
+
+<body>
+  <div class="map-container">
+    <div class="preloader">
+      <div class="frame"></div>
+      <div class="bar"></div>
+    </div>
+    <div class="ui">
+      <div class="logo"></div>
+      <div class="window small">
+        <h3>Пешеходные дорожки</h3>
+        <div class="button left">
+          <h3>Серии</h3>
+        </div>
+        <div class="button right">
+          <h3>Игры</h3>
+        </div>
+      </div>
+      <div class="window location">
+        <h3>Пешеходные дорожки</h3>
+        <p>В парке есть замечательная Детская площадка с горками, качелями, лесенками и батутом — от этого многообразия голова
+          может пойти кругом.</p>
+        <div class="button left">
+          <h3>Серии</h3>
+        </div>
+        <div class="button right">
+          <h3>Игры</h3>
+        </div>
+        <div class="button close small"></div>
+      </div>
+      <div class="window episode">
+        <h3>Маскарад</h3>
+        <iframe width="550" height="310" src="https://www.youtube.com/embed/lAoQvWQr4sM" frameborder="0" allowfullscreen></iframe>
+        <p>Сегодня Вик не в настроении. И тут тетя Маша приносит большую коробку со старыми карнавальными костюмами. Столько
+          интересного таит эта коробка! Немного переодевания, и Вик легко превращается в археолога, еще немного деталей -
+          и он уже рыцарь, а через минуту - супергерой, готовый на всё!</p>
+        <div class="button close"></div>
+        <div class="button prev"></div>
+        <div class="button next"></div>
+      </div>
+      <div class="window game">
+        <h3>Прятки</h3>
+        <p>Дети собираются вместе. Затем водящий, встав лицом к стене, громко считает до 100 (или другого числа). Остальные
+          участники в это время прячутся. Досчитав до конца, водящий идёт искать спрятавшихся. Увидев спрятавшегося, он должен
+          первым добежать до места, откуда он начал поиски, и коснуться рукой стены, произнеся условленные слова и имя того,
+          кого он нашел. Например "Чина-чина, Вик!" Каждый спрятавшийся старается первым сделать то же самое. Следующим водящим
+          является тот из спрятавшихся, кого засалили («зачекали») первым, а если не засалили никого — тот же, что и в прошлый
+          раз.
+        </p>
+        <div class="button close"></div>
+        <div class="button prev"></div>
+        <div class="button next"></div>
+        <div class="button long">
+          <h3>Что для этого нужно</h3>
+        </div>
+        <img class="illustration" src="images/layout/game1.png" />
+        <div class="items">
+          <img class="item" src="images/layout/item1.png" />
+          <img class="item" src="images/layout/item2.png" />
+        </div>
+      </div>
+      <div class="counter">
+        <div class="count">
+          <span>88</span>
+          <img class="yoko" src="images/layout/counter-yoko.png" />
+        </div>
+        <div class="help"></div>
+      </div>
+    </div>
+  </div>
+  <script src="vendor.js"></script>
+  <script src="app.js"></script>
+  <script>require('initialize')</script>
+</body>
