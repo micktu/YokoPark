@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-    window.data = require('./data')
+    window.Data = require('./data')
 
     const YokoPark = require('./YokoPark')
     window.YokoPark = YokoPark
-    YokoPark.init()
+
+    YokoPark.getJson('textures.json', function(data) {
+        window.TextureData = data
+        YokoPark.init()    
+    })
 })

@@ -1,0 +1,96 @@
+{
+  "background": [
+    {
+      "path": "Живые декорации - Ambient_animations/Водопад/_YokoSite_Waterfall_Sprite.png",
+      "outName": "waterfall",
+      "width": 950,
+      "height": 950,
+      "x": 4000,
+      "y": 750
+    },
+    {
+      "path": "Живые декорации - Ambient_animations/Блики на воде1/_YokoSite_Water_1_Sprite.png",
+      "outName": "water1",
+      "width": 1340,
+      "height": 580,
+      "x": 3200,
+      "y": 1480
+    },
+    {
+      "path": "Живые декорации - Ambient_animations/Блики на воде2/_YokoSite_Water_2_Sprite.png",
+      "outName": "water2",
+      "width": 1600,
+      "height": 600,
+      "x": 1100,
+      "y": 2260
+    },
+    {
+      "path": "Живые декорации - Ambient_animations/Домик тети Маши/_YokoSite_Light_Sprite.png",
+      "outName": "lights",
+      "width": 420,
+      "height": 300,
+      "x": 3840,
+      "y": 2220,
+      "textureSize": 512,
+      "speed": 0.05
+    },
+    {
+      "path": "Живые декорации - Ambient_animations/Карусель/_YokoSite_Horse_Sprite.png",
+      "outName": "carousel",
+      "width": 700,
+      "height": 700,
+      "x": 2000,
+      "y": 600
+    }
+  ],
+  "interactive": [
+    {
+      "path": "Волшебные превращения - FXs/Песочница - Замок/_YokoSite_Castle_Sprite.png",
+      "outName": "castle",
+      "width": 1060,
+      "height": 910,
+      "x": 1560,
+      "y": 1270
+    },
+    {
+      "path": "Волшебные превращения - FXs/Коряга - Пиратский корабль/_YokoSite_Ship_Sprite.png",
+      "outName": "ship",
+      "width": 1120,
+      "height": 830,
+      "x": 1020,
+      "y": 1980
+    },
+    {
+      "path": "Волшебные превращения - FXs/Вороны - Пингвины/_YokoSite_Crows_Sprite.png",
+      "outName": "penguins",
+      "width": 580,
+      "height": 600,
+      "x": 2840,
+      "y": 1940
+    },
+    {
+      "path": "Волшебные превращения - FXs/Статуя Йоко - Йоко/_YokoSite_Statue_Sprite.png",
+      "outName": "statue",
+      "width": 1040,
+      "height": 960,
+      "x": 2420,
+      "y": 1400
+    },
+    {
+      "path": "Волшебные превращения - FXs/Елка - Ракета/_YokoSite_Rocket_Sprite.png",
+      "outName": "rocket",
+      "width": 490,
+      "height": 610,
+      "x": 2860,
+      "y": 950
+    },
+    {
+      "path": "Волшебные превращения - FXs/Скамейка - батискаф/_YokoSite_Submarine_Sprite.png",
+      "outName": "submarine",
+      "width": 1250,
+      "height": 1000,
+      "x": 1400,
+      "y": 2000
+    }
+  ]
+}

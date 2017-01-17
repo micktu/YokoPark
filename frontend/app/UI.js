@@ -60,8 +60,8 @@ function onAssetsLoaded(stage) {
   counter = container.querySelector('.counter span')
   counter.innerHTML = "" + collectedYokos
 
-  for (var i = 0; i < data.yoko.length; i++) {
-    var yoko = data.yoko[i]
+  for (var i = 0; i < Data.yoko.length; i++) {
+    var yoko = Data.yoko[i]
     var name = yoko.type === 'up' ? 'yoko-up' : 'yoko-right'
 
     var yokoSprite = new PIXI.Sprite(PIXI.loader.resources[name].texture)
@@ -82,7 +82,7 @@ function onAssetsLoaded(stage) {
 
 function render(deltaTime) {
   if (isCounterAnimated) {
-    var t = counterAnimationTime / data.counterAnimationPeriod
+    var t = counterAnimationTime / Data.counterAnimationPeriod
 
     if (t >= 1.0) {
       isCounterAnimated = false
@@ -135,13 +135,13 @@ function handleClick(mapX, mapY) {
     return true
   }
 
-  for (var i = 0; i < data.markers.length; i++) {
-    var marker = data.markers[i]
+  for (var i = 0; i < Data.markers.length; i++) {
+    var marker = Data.markers[i]
 
-    var dX = mapX - marker.x * data.scale
-    var dY = mapY - marker.y * data.scale
+    var dX = mapX - marker.x * Data.scale
+    var dY = mapY - marker.y * Data.scale
 
-    if (dX * dX + dY * dY <= data.markerRadius * data.markerRadius) {
+    if (dX * dX + dY * dY <= Data.markerRadius * Data.markerRadius) {
       openWindow(locationWindow)
       return true
     }

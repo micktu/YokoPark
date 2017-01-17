@@ -56,7 +56,22 @@ function render(time) {
   window.requestAnimationFrame(render)
 }
 
-module.exports = { 
+function getJson(url, callback) {
+  const request = new XMLHttpRequest()
+  
+  request.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+      const data = JSON.parse(this.responseText)
+      callback(data)
+    }
+  }
+
+  request.open('GET', url)
+  request.send()
+}
+
+module.exports = {
+  getJson,
   init,
   get renderer() { return renderer },
   get Map() { return Map },
