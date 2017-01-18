@@ -38,6 +38,7 @@
   position: absolute;
   z-index: 10;
   background: url('../images/layout/frame.png');
+  display: none;
 }
 
 .map-container .logo {

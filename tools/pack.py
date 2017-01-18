@@ -12,7 +12,7 @@ settings = {
         'path': 'Park/YokoPark_Background.png',
         'outName': 'map',
         'textureSize': 1024,
-        'quality': 80
+        'quality': 85
     }
 }
 
@@ -40,7 +40,7 @@ scale = settings['scale']
 mapWidth = int(round(scale * mapSize[0]))
 mapHeight = int(round(scale * mapSize[1]))
 
-mapScaled = mapImage.resize((mapWidth, mapHeight), Image.BOX) 
+mapScaled = mapImage.resize((mapWidth, mapHeight), Image.LANCZOS) 
 texNumX = int(math.ceil(float(mapWidth) / texSize))
 texNumY = int(math.ceil(float(mapHeight) / texSize))
 
@@ -55,7 +55,7 @@ for i in range(texNumY):
         texImage.paste(mapScaled.crop((x, y, x + w, y + h)))
 
         outPath = settings['outPath'] + mapSettings['outName'] + str(i * texNumX + j) + '.jpg'
-        texImage.save(outPath)
+        texImage.save(outPath, quality=mapSettings['quality'])
         print "Saved map texture %d, %d" % (j, i)
 
 def finalizeAnimation(outImage, anim, currentTexture):
@@ -119,7 +119,7 @@ for category, animList in animations.items():
                 continue
 
             rect = (currentFrame * anim['width'], 0, currentFrame * anim['width'] + animDivWidth, animDivHeight)
-            frameImage = animImage.crop(rect).resize((frameWidth, frameHeight), Image.BOX)
+            frameImage = animImage.crop(rect).resize((frameWidth, frameHeight), Image.LANCZOS)
             outImage.paste(frameImage, (x * frameWidth, y * frameHeight))
 
             currentFrame += 1

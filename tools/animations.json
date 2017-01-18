@@ -74,7 +74,8 @@
       "width": 1040,
       "height": 960,
       "x": 2420,
-      "y": 1400
+      "y": 1400,
+      "numFrames": 30
     },
     {
       "path": "Волшебные превращения - FXs/Елка - Ракета/_YokoSite_Rocket_Sprite.png",
@@ -91,6 +92,62 @@
       "height": 1000,
       "x": 1400,
       "y": 2000
+    }
+  ],
+  "hint": [
+    {
+      "path": "Stars_hint/Crows/_YokoSite_Crows_Sprite.png",
+      "outName": "penguins-hint",
+      "width": 330,
+      "height": 225,
+      "x": 3051,
+      "y": 2252,
+      "textureSize": 512
+    },
+    {
+      "path": "Stars_hint/Pirate_ship/_YokoSite_Ship_Sprite.png",
+      "outName": "ship-hint",
+      "width": 369,
+      "height": 217,
+      "x": 1141,
+      "y": 2231,
+      "textureSize": 512
+    },
+    {
+      "path": "Stars_hint/Sandbox/_YokoSite_Sandbox_Sprite.png",
+      "outName": "castle-hint",
+      "width": 381,
+      "height": 242,
+      "x": 1883,
+      "y": 1820,
+      "textureSize": 512
+    },
+    {
+      "path": "Stars_hint/Submarine/_YokoSite_Submarine_Sprite.png",
+      "outName": "submarine-hint",
+      "width": 349,
+      "height": 193,
+      "x": 2343,
+      "y": 2260,
+      "textureSize": 512
+    },
+    {
+      "path": "Stars_hint/Tree_Rocket/_YokoSite_Rocket_Sprite.png",
+      "outName": "rocket-hint",
+      "width": 412,
+      "height": 465,
+      "x": 3481,
+      "y": 765,
+      "textureSize": 1024
+    },
+    {
+      "path": "Stars_hint/Yoko_Statue/_YokoSite_Statue_Sprite.png",
+      "outName": "statue-hint",
+      "width": 378,
+      "height": 437,
+      "x": 2713,
+      "y": 1766,
+      "textureSize": 512
     }
   ]
 }

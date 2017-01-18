@@ -1,8 +1,57 @@
 module.exports = {
-  markerRadius: 100,
+  animationReversePeriod: 5000,
+  activationPeriodMin: 5000,
+  activationPeriodMax: 10000,
+  activationCycle: [
+    'statue',
+    'ship',
+    'penguins',
+    'castle',
+    'rocket',
+    'submarine'
+  ],
+  markerRadius: 50,
   yokoRadius: 100,
   yokoAnimationPeriod: 500,
   counterAnimationPeriod: 2000,
+  hitboxes: {
+    rocket: {
+      top: 100,
+      bottom: 50,
+      left: 100,
+      right: 80,
+    },
+    statue: {
+      top: 300,
+      bottom: 100,
+      left: 200,
+      right: 200,
+    },
+    penguins: {
+      top: 300,
+      bottom: 0,
+      left: 200,
+      right: 80,
+    },
+    submarine: {
+      top: 200,
+      bottom: 200,
+      left: 400,
+      right: 0,
+    },
+    ship: {
+      top: 200,
+      bottom: 200,
+      left: 100,
+      right: 300,
+    },
+    castle: {
+      top: 200,
+      bottom: 100,
+      left: 100,
+      right: 0,
+    }
+  },
   'markers': [
     {
       x: 4000,

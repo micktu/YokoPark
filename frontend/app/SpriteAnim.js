@@ -16,13 +16,12 @@ module.exports = class {
     }
   }
 
-  onAssetsLoaded() {
+  init(container) {
     var data = this.data
     var renderer = YokoPark.renderer
 
-    if (!data.isBackground) {
-      //mapGraphics.drawRect(anim.x * TextureData.scale, anim.y * TextureData.scale, anim.width * TextureData.scale, anim.height * TextureData.scale)
-    }
+    if (!data.speed) data.speed = 1
+    this.speed = 0.5 * data.speed
 
     var w = data.width * TextureData.scale
     var h = data.height * TextureData.scale
@@ -50,27 +49,81 @@ module.exports = class {
     }
 
     var sprite = new PIXI.extras.AnimatedSprite(frames)
-    sprite.position.set(data.x * TextureData.scale, data.y * TextureData.scale)
-    sprite.animationSpeed = 0.5 * (data.speed ? data.speed : 1)
-    if (data.type === "background") sprite.play()
+    sprite.position.set(Math.round(data.x * TextureData.scale), Math.round(data.y * TextureData.scale))
+    sprite.animationSpeed = this.speed
+    if (data.type !== 'interactive') sprite.play()
     else sprite.loop = false
-    YokoPark.Map.tileContainer.addChild(sprite)
+    container.addChild(sprite)
     this.sprite = sprite
+
+    this.hitbox = {
+      left: this.data.x,
+      top: this.data.y,
+      bottom: this.data.y + this.data.height,
+      right: this.data.x + this.data.width
+    }
+
+    const hitOffset = Data.hitboxes[this.name]
+    if (hitOffset) {
+      this.hitbox.left += hitOffset.left
+      this.hitbox.top += hitOffset.top
+      this.hitbox.right -= hitOffset.right
+      this.hitbox.bottom -= hitOffset.bottom
+    }
+
+    this.hitbox.left *= TextureData.scale
+    this.hitbox.top *= TextureData.scale
+    this.hitbox.right *= TextureData.scale
+    this.hitbox.bottom *= TextureData.scale
   }
 
   hit(x, y) {
     const data = this.data
-    if (data.isBackground) return false
+    if (data.type !== 'interactive') return false
 
-    const left = data.x * TextureData.scale
-    const top = data.y * TextureData.scale
-    const right = left + data.width * TextureData.scale
-    const bottom = top + data.height * TextureData.scale
-
-    return left <= x && right >= x && top <= y && bottom >= y
+    const b = this.hitbox
+    return b.left <= x && b.right >= x && b.top <= y && b.bottom >= y
   }
 
   play() {
-      this.sprite.gotoAndPlay(0)
+    if (this.sprite.playing) return
+
+    this.sprite.animationSpeed = this.isReverse ? -this.speed : this.speed
+    this.sprite.play()
+
+    const hint = YokoPark.Map.spriteAnims[this.name + '-hint']
+
+    if (this.isReverse) hint.fadeIn()
+    else hint.fadeOut()
+
+    if (this.isReverse) {
+      clearTimeout(this.reverseTimeout)
+    } else {
+      const anim = this
+      this.reverseTimeout = setTimeout(function () {
+        anim.play()
+      }, Data.animationReversePeriod)
+    }
+
+    this.isReverse = !this.isReverse
+  }
+
+  fadeOut() {
+    this.animationTime = 0
+    this.isFadeIn = false
+    this.isAnimated = true
+  }
+
+  fadeIn() {
+    this.animationTime = 0
+    this.isFadeIn = true
+    this.isAnimated = true
+  }
+
+  animate(deltaTime) {
+    const t = this.animationTime / 1000
+    this.sprite.alpha = this.isFadeIn ? t : 1 - t
+    this.animationTime += deltaTime
+    if (this.animationTime > 1000) this.isAnimated = false
   }
 }

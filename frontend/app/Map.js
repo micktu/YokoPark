@@ -1,9 +1,12 @@
 const SpriteAnim = require('./SpriteAnim')
+const MapLocation = require('./MapLocation')
 
-let container, tileContainer
-const spriteAnims = {}
+let container, tileContainer, mapGraphics, backContainer, frontContainer, hintContainer
+let currentActivationIndex = 0
+const spriteAnims = {}, locations = []
 const animatedYoko = []
-let isDragging, dragX, dragY, dragMapX, dragMapY
+let isDragging, dragX, dragY, dragMapX, dragMapY, oldX, oldY, velocityX, velocityY
+const friction = 0.8
 
 function init(c) {
   container = c
@@ -22,6 +25,12 @@ function init(c) {
   }
 
   PIXI.loader.add('marker', 'images/layout/marker.png')
+
+  window.addEventListener('keydown', function(event) {
+    if (event.keyCode == 192) {
+      mapGraphics.visible = !mapGraphics.visible
+    }
+  }, false)
 }
 
 function onAssetsLoaded(stage) {
@@ -44,26 +53,80 @@ function onAssetsLoaded(stage) {
   tileContainer.x = -(TextureData.map.width * TextureData.scale - renderer.width) / 2
   tileContainer.y = -(TextureData.map.height * TextureData.scale - renderer.height) / 2
 
-  var mapGraphics = new PIXI.Graphics()
+  var backContainer = new PIXI.Container()
+  tileContainer.addChild(backContainer)
+
+  mapGraphics = new PIXI.Graphics()
   mapGraphics.lineStyle(2, 0x00FF00)
   tileContainer.addChild(mapGraphics)
+  mapGraphics.visible = false
+
+  frontContainer = new PIXI.Container()
+  tileContainer.addChild(frontContainer)
+
+  hintContainer = new PIXI.Container()
+  tileContainer.addChild(hintContainer)
 
   for (let name in spriteAnims) {
-    spriteAnims[name].onAssetsLoaded()
+    const anim = spriteAnims[name]
+    let c
+
+    switch (anim.data.type) {
+      case 'background':
+        c = backContainer
+        break
+      case 'interactive':
+        c = frontContainer
+        break
+      case 'hint':
+        c = hintContainer
+        break
+    }
+
+    anim.init(c)
+
+    if (anim.data.type === 'interactive') {
+        mapGraphics.drawRect(anim.hitbox.left, anim.hitbox.top, anim.hitbox.right - anim.hitbox.left, anim.hitbox.bottom - anim.hitbox.top)      
+    }
   }
+  setNextActivation()
 
   for (var i = 0; i < Data.markers.length; i++) {
-    var marker = Data.markers[i]
-
-    var markerSprite = new PIXI.Sprite(PIXI.loader.resources.marker.texture)
-    markerSprite.anchor.set(0.5, 1.0)
-    markerSprite.position.set(marker.x * TextureData.scale, marker.y * TextureData.scale)
-    markerSprite.scale.set(0.5, 0.5)
-    tileContainer.addChild(markerSprite)
+    var location = new MapLocation(Data.markers[i])
+    location.init(tileContainer)
+    locations.push(location)
   }
 }
 
 function render(deltaTime) {
+  var c = tileContainer
+
+  if (isDragging) {
+    velocityX = c.x - oldX
+    velocityY = c.y - oldY
+
+    oldX = c.x
+    oldY = c.y
+  }
+  else if (velocityX * velocityX + velocityY * velocityY > 1) {
+    c.x += velocityX
+    c.y += velocityY
+
+    velocityX *= friction
+    velocityY *= friction
+
+    clampMapBounds()
+  }
+
+  for (let name in spriteAnims) {
+    const anim = spriteAnims[name]
+    if (anim.isAnimated) anim.animate(deltaTime)    
+  }
+
+  for (let loc of locations) {
+    loc.render(deltaTime)
+  }
+
   for (var i = 0; i < animatedYoko.length; i++) {
     var yoko = animatedYoko[i]
 
@@ -115,16 +178,7 @@ function mouseMove(x, y) {
   c.x = dragMapX - dragX + x
   c.y = dragMapY - dragY + y
 
-  var mapWidth = TextureData.map.width * TextureData.scale
-  var mapHeight = TextureData.map.height * TextureData.scale
-
-  if (c.x > 0) c.x = 0
-  else if (c.x < renderer.width - mapWidth)
-    c.x = renderer.width - mapWidth
-
-  if (c.y > 0) c.y = 0
-  else if (c.y < renderer.height - mapHeight)
-    c.y = renderer.height - mapHeight
+  clampMapBounds()
 }
 
 function handleClick(x, y) {
@@ -134,6 +188,18 @@ function handleClick(x, y) {
   var mapY = y + body.scrollTop - container.offsetTop - tileContainer.y
 
   if (YokoPark.UI.handleClick(mapX, mapY)) return
+
+  for (var i = 0; i < Data.markers.length; i++) {
+    var marker = Data.markers[i]
+
+    var dX = mapX - marker.x * TextureData.scale
+    var dY = mapY - marker.y * TextureData.scale
+
+    if (dX * dX + dY * dY <= Data.markerRadius * Data.markerRadius) {
+      YokoPark.UI.openLocationWindow()
+      return true
+    }
+  }
 
   for (var i = 0; i < Data.yoko.length; i++) {
     break;
@@ -166,6 +232,47 @@ function handleClick(x, y) {
   }
 }
 
+function clampMapBounds() {
+  var renderer = YokoPark.renderer
+  var c = tileContainer
+
+  var mapWidth = TextureData.map.width * TextureData.scale
+  var mapHeight = TextureData.map.height * TextureData.scale
+
+  if (c.x > 0) c.x = 0
+  else if (c.x < renderer.width - mapWidth)
+    c.x = renderer.width - mapWidth
+
+  if (c.y > 0) c.y = 0
+  else if (c.y < renderer.height - mapHeight)
+    c.y = renderer.height - mapHeight
+}
+
+function setNextActivation() {
+  const period = Math.random() * Data.activationPeriodMin + (Data.activationPeriodMax - Data.activationPeriodMin)
+  setTimeout(playNextAnim, period)
+}
+
+function playNextAnim() {
+  let nextAnim
+  let counter = 0
+
+  while (!nextAnim) {
+    const index = currentActivationIndex
+    currentActivationIndex++
+    currentActivationIndex %= Data.activationCycle.length
+
+    const anim = spriteAnims[Data.activationCycle[index]]
+    if (!anim.sprite.playing && !anim.isReverse) nextAnim = anim
+
+    counter++
+    if (counter >= Data.activationCycle.length) break
+  }
+
+  nextAnim.play()
+  setNextActivation() 
+}
+
 module.exports = {
   init,
   onAssetsLoaded,
@@ -173,5 +280,5 @@ module.exports = {
   mouseDown,
   mouseUp,
   mouseMove,
-  get tileContainer() { return tileContainer }
+  get spriteAnims() { return spriteAnims }
 }

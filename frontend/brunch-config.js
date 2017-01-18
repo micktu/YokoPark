@@ -21,5 +21,8 @@ module.exports = {
 
   plugins: {
     babel: { presets: ['es2015', 'es2016'] }
+  },
+  server: {
+    hostname: '0.0.0.0'
   }
 };

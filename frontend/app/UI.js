@@ -27,8 +27,6 @@ function init(с) {
     w.addEventListener('touchend', stop)
   }
 
-  container.style.display = 'none'
-
   PIXI.loader.add('yoko-right', 'images/textures/yoko-right-256.png')
   PIXI.loader.add('yoko-up', 'images/textures/yoko-up-256.png')
   PIXI.loader.add('yoko-jump', 'images/layout/yoko-jump.png')
@@ -59,7 +57,7 @@ function onAssetsLoaded(stage) {
 
   counter = container.querySelector('.counter span')
   counter.innerHTML = "" + collectedYokos
-
+/*
   for (var i = 0; i < Data.yoko.length; i++) {
     var yoko = Data.yoko[i]
     var name = yoko.type === 'up' ? 'yoko-up' : 'yoko-right'
@@ -71,8 +69,9 @@ function onAssetsLoaded(stage) {
     yokoSprite.scale.set(yoko.scale * (yoko.flip ? -1 : 1), yoko.scale)
     YokoPark.Map.tileContainer.addChild(yokoSprite)
     yoko.sprite = yokoSprite
+    
   }
-
+*/
   counterYoko = new PIXI.Sprite(PIXI.loader.resources['yoko-jump'].texture)
   counterYoko.position.set(20, 700)
   stage.addChild(counterYoko)
@@ -135,19 +134,11 @@ function handleClick(mapX, mapY) {
     return true
   }
 
-  for (var i = 0; i < Data.markers.length; i++) {
-    var marker = Data.markers[i]
-
-    var dX = mapX - marker.x * Data.scale
-    var dY = mapY - marker.y * Data.scale
-
-    if (dX * dX + dY * dY <= Data.markerRadius * Data.markerRadius) {
-      openWindow(locationWindow)
-      return true
-    }
-  }
-
   return false
+}
+
+function openLocationWindow() {
+  openWindow(locationWindow)
 }
 
 module.exports = {
@@ -157,4 +148,5 @@ module.exports = {
   openWindow,
   closeWindow,
   handleClick,
+  openLocationWindow
 }

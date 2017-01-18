@@ -18,12 +18,16 @@ function onTouchMove(event) {
   var touch = event.touches[0] || event.changedTouches[0]
 
   YokoPark.Map.mouseMove(touch.clientX, touch.clientY)
+
+  event.preventDefault()
 }
 
 function onMouseMove(event) {
   if (!mousePressed) return
 
   YokoPark.Map.mouseMove(event.clientX, event.clientY)
+
+  event.preventDefault()
 }
 
 function onTouchStart(event) {
