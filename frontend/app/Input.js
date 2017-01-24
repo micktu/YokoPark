@@ -23,8 +23,6 @@ function onTouchMove(event) {
 }
 
 function onMouseMove(event) {
-  if (!mousePressed) return
-
   YokoPark.Map.mouseMove(event.clientX, event.clientY)
 
   event.preventDefault()

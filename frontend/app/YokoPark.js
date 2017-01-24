@@ -10,7 +10,7 @@ function init() {
   renderer = PIXI.autoDetectRenderer(980, 700)
 
   const extensions = PIXI.compressedTextures.detectExtensions(renderer);
-  PIXI.loader.before(PIXI.compressedTextures.extensionChooser(extensions))
+  PIXI.loader.pre(PIXI.compressedTextures.extensionChooser(extensions))
   //textureOptions = { metadata: { choice: ['.pvr'] } }
   textureOptions = { metadata: { choice: [] } }
 

@@ -5,7 +5,7 @@ let container, tileContainer, mapGraphics, backContainer, frontContainer, hintCo
 let currentActivationIndex = 0
 const spriteAnims = {}, locations = []
 const animatedYoko = []
-let isDragging, dragX, dragY, dragMapX, dragMapY, oldX, oldY, velocityX, velocityY
+let isDragging, dragX, dragY, dragMapX, dragMapY, oldX, oldY, velocityX, velocityY, hoverX, hoverY
 const friction = 0.8
 
 function init(c) {
@@ -26,7 +26,7 @@ function init(c) {
 
   PIXI.loader.add('marker', 'images/layout/marker.png')
 
-  window.addEventListener('keydown', function(event) {
+  window.addEventListener('keydown', function (event) {
     if (event.keyCode == 192) {
       mapGraphics.visible = !mapGraphics.visible
     }
@@ -86,7 +86,7 @@ function onAssetsLoaded(stage) {
     anim.init(c)
 
     if (anim.data.type === 'interactive') {
-        mapGraphics.drawRect(anim.hitbox.left, anim.hitbox.top, anim.hitbox.right - anim.hitbox.left, anim.hitbox.bottom - anim.hitbox.top)      
+      mapGraphics.drawRect(anim.hitbox.left, anim.hitbox.top, anim.hitbox.right - anim.hitbox.left, anim.hitbox.bottom - anim.hitbox.top)
     }
   }
   setNextActivation()
@@ -120,7 +120,12 @@ function render(deltaTime) {
 
   for (let name in spriteAnims) {
     const anim = spriteAnims[name]
-    if (anim.isAnimated) anim.animate(deltaTime)    
+    if (anim.data.type !== 'interactive') continue
+
+    if (!anim.isReverse && !anim.sprite.playing && !anim.hint.sprite.playing && anim.hit(hoverX, hoverY)) {
+      anim.hint.sprite.gotoAndPlay(0)
+    }
+    //if (anim.isAnimated) anim.animate(deltaTime)    
   }
 
   for (let loc of locations) {
@@ -172,6 +177,15 @@ function mouseUp(x, y) {
 }
 
 function mouseMove(x, y) {
+  if (!tileContainer) return
+  
+  if (!isDragging) {
+    var body = document.body
+    hoverX = x + body.scrollLeft - container.offsetLeft - tileContainer.x
+    hoverY = y + body.scrollTop - container.offsetTop - tileContainer.y
+    return
+  }
+
   var c = tileContainer
   var renderer = YokoPark.renderer
 
@@ -270,7 +284,7 @@ function playNextAnim() {
   }
 
   nextAnim.play()
-  setNextActivation() 
+  setNextActivation()
 }
 
 module.exports = {

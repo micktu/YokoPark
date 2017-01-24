@@ -51,10 +51,15 @@ module.exports = class {
     var sprite = new PIXI.extras.AnimatedSprite(frames)
     sprite.position.set(Math.round(data.x * TextureData.scale), Math.round(data.y * TextureData.scale))
     sprite.animationSpeed = this.speed
-    if (data.type !== 'interactive') sprite.play()
+    if (data.type === 'background') sprite.play()
     else sprite.loop = false
     container.addChild(sprite)
     this.sprite = sprite
+
+    if (data.type === 'interactive') {
+      this.hint = YokoPark.Map.spriteAnims[this.name + '-hint']
+      this.armHitPlayback()
+    }
 
     this.hitbox = {
       left: this.data.x,
@@ -91,10 +96,8 @@ module.exports = class {
     this.sprite.animationSpeed = this.isReverse ? -this.speed : this.speed
     this.sprite.play()
 
-    const hint = YokoPark.Map.spriteAnims[this.name + '-hint']
-
-    if (this.isReverse) hint.fadeIn()
-    else hint.fadeOut()
+    //if (this.isReverse) hint.fadeIn()
+    //else hint.fadeOut()
 
     if (this.isReverse) {
       clearTimeout(this.reverseTimeout)
@@ -125,5 +128,15 @@ module.exports = class {
     this.sprite.alpha = this.isFadeIn ? t : 1 - t
     this.animationTime += deltaTime
     if (this.animationTime > 1000) this.isAnimated = false
+  }
+
+  armHitPlayback() {
+    var anim = this
+    setTimeout(function () {
+      if (!anim.isReverse && !anim.sprite.playing) {
+        anim.hint.sprite.gotoAndPlay(0)
+      }
+      anim.armHitPlayback()
+    }, 5000 + 5000 * Math.random())
   }
 }

@@ -40,7 +40,8 @@
       "width": 700,
       "height": 700,
       "x": 2000,
-      "y": 600
+      "y": 600,
+      "numFrames": 49      
     }
   ],
   "interactive": [
