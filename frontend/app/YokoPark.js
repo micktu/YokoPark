@@ -9,6 +9,9 @@ function init() {
   PIXI.settings.MIPMAP_TEXTURES = false
   renderer = PIXI.autoDetectRenderer(980, 700)
 
+  container.appendChild(renderer.view)
+  stage = new PIXI.Container()
+
   const extensions = PIXI.compressedTextures.detectExtensions(renderer);
   PIXI.loader.pre(PIXI.compressedTextures.extensionChooser(extensions))
   //textureOptions = { metadata: { choice: ['.pvr'] } }
@@ -18,7 +21,7 @@ function init() {
   Preloader.init(container.querySelector('.preloader'))
 
   Map = require('./Map')
-  Map.init(container)
+  Map.init(container, stage)
 
   UI = require('./UI')
   UI.init(container.querySelector('.ui'))
@@ -32,9 +35,6 @@ function init() {
 }
 
 function onAssetsLoaded() {
-  container.appendChild(renderer.view)
-
-  stage = new PIXI.Container()
   Map.onAssetsLoaded(stage)
   UI.onAssetsLoaded(stage)
 

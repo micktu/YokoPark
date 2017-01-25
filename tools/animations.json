@@ -41,7 +41,7 @@
       "height": 700,
       "x": 2000,
       "y": 600,
-      "numFrames": 49      
+      "numFrames": 48      
     }
   ],
   "interactive": [
@@ -54,7 +54,7 @@
       "y": 1270
     },
     {
-      "path": "Волшебные превращения - FXs/Коряга - Пиратский корабль/_YokoSite_Ship_Sprite.png",
+      "path": "Волшебные превращения - FXs/Коряга - Пиратский корабль/_YokoSite_Ship2_Sprite.png",
       "outName": "ship",
       "width": 1120,
       "height": 830,
@@ -87,7 +87,7 @@
       "y": 950
     },
     {
-      "path": "Волшебные превращения - FXs/Скамейка - батискаф/_YokoSite_Submarine_Sprite.png",
+      "path": "Волшебные превращения - FXs/Скамейка - батискаф/_YokoSite_Submarine2_Sprite.png",
       "outName": "submarine",
       "width": 1250,
       "height": 1000,

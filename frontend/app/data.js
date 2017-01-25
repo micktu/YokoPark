@@ -35,15 +35,15 @@ module.exports = {
     },
     submarine: {
       top: 200,
-      bottom: 200,
-      left: 400,
+      bottom: 250,
+      left: 500,
       right: 0,
     },
     ship: {
       top: 200,
-      bottom: 200,
+      bottom: 150,
       left: 100,
-      right: 300,
+      right: 250,
     },
     castle: {
       top: 200,

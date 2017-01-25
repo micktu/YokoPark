@@ -11,6 +11,8 @@ module.exports = class {
     this.framesPerTexture = this.framesPerX * this.framesPerY
     this.numTextures = Math.ceil(data.numFrames / this.framesPerTexture)
 
+    this.isInteractive = data.type === 'interactive'
+
     for (let i = 0; i < this.numTextures; i++) {
       PIXI.loader.add(name + i, 'images/textures/' + name + i + '.png', YokoPark.textureOptions)
     }
@@ -56,8 +58,8 @@ module.exports = class {
     container.addChild(sprite)
     this.sprite = sprite
 
-    if (data.type === 'interactive') {
-      this.hint = YokoPark.Map.spriteAnims[this.name + '-hint']
+    if (this.isInteractive) {
+      this.hint = YokoPark.Map.animManager.anims[this.name + '-hint']
       this.armHitPlayback()
     }
 
@@ -84,7 +86,7 @@ module.exports = class {
 
   hit(x, y) {
     const data = this.data
-    if (data.type !== 'interactive') return false
+    if (!this.isInteractive) return false
 
     const b = this.hitbox
     return b.left <= x && b.right >= x && b.top <= y && b.bottom >= y
