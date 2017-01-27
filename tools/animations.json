@@ -14,7 +14,8 @@
       "width": 1340,
       "height": 580,
       "x": 3200,
-      "y": 1480
+      "y": 1480,
+      "speed": 0.5
     },
     {
       "path": "Живые декорации - Ambient_animations/Блики на воде2/_YokoSite_Water_2_Sprite.png",
@@ -22,7 +23,8 @@
       "width": 1600,
       "height": 600,
       "x": 1100,
-      "y": 2260
+      "y": 2260,
+      "speed": 0.45      
     },
     {
       "path": "Живые декорации - Ambient_animations/Домик тети Маши/_YokoSite_Light_Sprite.png",
@@ -41,7 +43,8 @@
       "height": 700,
       "x": 2000,
       "y": 600,
-      "numFrames": 48      
+      "numFrames": 48,
+      "speed": 0.5
     }
   ],
   "interactive": [
@@ -137,8 +140,8 @@
       "outName": "rocket-hint",
       "width": 412,
       "height": 465,
-      "x": 3481,
-      "y": 765,
+      "x": 2920,
+      "y": 1084,
       "textureSize": 1024
     },
     {
@@ -148,7 +151,15 @@
       "height": 437,
       "x": 2713,
       "y": 1766,
-      "textureSize": 512
+      "textureSize": 1024
+    }
+  ],
+  "misc": [
+    {
+      "path": "Волшебные превращения - FXs/Йоко/Yoko_Sprite.png",
+      "outName": "yoko",
+      "width": 1130,
+      "height": 1024
     }
   ]
 }

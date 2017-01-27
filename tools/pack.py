@@ -1,4 +1,5 @@
-import math, json
+import math
+import json
 from PIL import Image
 
 settings = {
@@ -6,13 +7,13 @@ settings = {
     'jsonOutFile': '../frontend/public/textures.json',
     'basePath': '../ftp/YOKO_Park/',
     'outPath': '../frontend/public/images/textures/',
-    'scale': 0.25,
+    'divisor': 3,
     'animTextureSize': 2048,
     'map': {
-        'path': 'Park/YokoPark_Background.png',
+        'path': 'Park/YokoPark_Background_NEW.png',
         'outName': 'map',
-        'textureSize': 1024,
-        'quality': 85
+        'textureSize': 512,
+        'quality': 90
     }
 }
 
@@ -25,8 +26,8 @@ mapSettings = settings['map']
 mapImage = Image.open(basePath + mapSettings['path'])
 mapSize = mapImage.size
 
-outData= {
-    'scale': settings['scale'],
+outData = {
+    'scale': 1.0 / settings['divisor'],
     'map': {
         'name': mapSettings['outName'],
         'textureSize': mapSettings['textureSize'],
@@ -36,11 +37,11 @@ outData= {
 }
 
 texSize = mapSettings['textureSize']
-scale = settings['scale']
-mapWidth = int(round(scale * mapSize[0]))
-mapHeight = int(round(scale * mapSize[1]))
+divisor = settings['divisor']
+mapWidth = mapSize[0] / divisor
+mapHeight = mapSize[1] / divisor
 
-mapScaled = mapImage.resize((mapWidth, mapHeight), Image.LANCZOS) 
+mapScaled = mapImage.resize((mapWidth, mapHeight), Image.LANCZOS)
 texNumX = int(math.ceil(float(mapWidth) / texSize))
 texNumY = int(math.ceil(float(mapHeight) / texSize))
 
@@ -48,18 +49,25 @@ for i in range(texNumY):
     for j in range(texNumX):
         x = j * texSize
         y = i * texSize
-        w = x + (mapWidth - x ) if x + texSize > mapWidth else texSize 
-        h = y + (mapHeight - y ) if y + texSize > mapHeight else texSize
-        
+        w = x + (mapWidth - x) if x + texSize > mapWidth else texSize
+        h = y + (mapHeight - y) if y + texSize > mapHeight else texSize
+
         texImage = Image.new('RGB', (texSize, texSize))
         texImage.paste(mapScaled.crop((x, y, x + w, y + h)))
 
-        outPath = settings['outPath'] + mapSettings['outName'] + str(i * texNumX + j) + '.jpg'
-        texImage.save(outPath, quality=mapSettings['quality'])
+        # outPath = settings['outPath'] + \
+        #    mapSettings['outName'] + str(i * texNumX + j) + '.jpg'
+        #texImage.save(outPath, quality=mapSettings['quality'])
+
+        outPath = settings['outPath'] + \
+            mapSettings['outName'] + str(i * texNumX + j) + '.png'
+        texImage.save(outPath)
         print "Saved map texture %d, %d" % (j, i)
 
+
 def finalizeAnimation(outImage, anim, currentTexture):
-    outPath = settings['outPath'] + anim['outName'] + str(currentTexture) + '.png'
+    outPath = settings['outPath'] + \
+        anim['outName'] + str(currentTexture) + '.png'
     outImage.save(outPath)
     print "Saved animation '%s' texture %d" % (anim['outName'], currentTexture)
 
@@ -76,26 +84,31 @@ for category, animList in animations.items():
         animWidth = animImage.size[0]
         animHeight = animImage.size[1]
 
-        animDivWidth = anim['width'] - anim['width'] % 4
-        animDivHeight = anim['height'] - anim['height'] % 4
+        animDivWidth = anim['width'] - anim['width'] % divisor
+        animDivHeight = anim['height'] - anim['height'] % divisor
 
-        frameWidth = int(round(animDivWidth * scale))
-        frameHeight = int(round(animDivHeight * scale))
+        frameWidth = animDivWidth / divisor
+        frameHeight = animDivHeight / divisor
         framesPerX = texSize / frameWidth
         framesPerY = texSize / frameHeight
         framesPerTexture = framesPerX * framesPerY
 
-        numFrames = anim['numFrames'] if 'numFrames' in anim else animWidth / anim['width']
+        numFrames = anim[
+            'numFrames'] if 'numFrames' in anim else animWidth / anim['width']
 
         animData = {
             'width': animDivWidth,
             'height': animDivHeight,
-            'x': anim['x'],
-            'y': anim['y'],
             'numFrames': numFrames,
             'textureSize': texSize,
             'type': category
         }
+
+        if 'x' in anim:
+            animData['x'] = anim['x']
+
+        if 'y' in anim:
+            animData['y'] = anim['y']
 
         if 'speed' in anim:
             animData['speed'] = anim['speed']
@@ -118,8 +131,10 @@ for category, animList in animations.items():
                 currentTexture += 1
                 continue
 
-            rect = (currentFrame * anim['width'], 0, currentFrame * anim['width'] + animDivWidth, animDivHeight)
-            frameImage = animImage.crop(rect).resize((frameWidth, frameHeight), Image.LANCZOS)
+            rect = (currentFrame * anim['width'], 0, currentFrame *
+                    anim['width'] + animDivWidth, animDivHeight)
+            frameImage = animImage.crop(rect).resize(
+                (frameWidth, frameHeight), Image.LANCZOS)
             outImage.paste(frameImage, (x * frameWidth, y * frameHeight))
 
             currentFrame += 1

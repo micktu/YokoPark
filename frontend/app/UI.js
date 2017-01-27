@@ -1,8 +1,7 @@
 let container
 let locationWindow, episodeWindow, gameWindow
-let isCounterAnimated = false, counterAnimationTime = 0
-let counter, counterYoko, collectedYokos = 0
 let isWindowOpen = false
+let counter
 
 function init(с) {
   container = с
@@ -26,10 +25,6 @@ function init(с) {
     w.addEventListener('touchstart', stop)
     w.addEventListener('touchend', stop)
   }
-
-  PIXI.loader.add('yoko-right', 'images/textures/yoko-right-256.png')
-  PIXI.loader.add('yoko-up', 'images/textures/yoko-up-256.png')
-  PIXI.loader.add('yoko-jump', 'images/layout/yoko-jump.png')
 }
 
 function onAssetsLoaded(stage) {
@@ -56,50 +51,13 @@ function onAssetsLoaded(stage) {
   })
 
   counter = container.querySelector('.counter span')
-  counter.innerHTML = "" + collectedYokos
-/*
-  for (var i = 0; i < Data.yoko.length; i++) {
-    var yoko = Data.yoko[i]
-    var name = yoko.type === 'up' ? 'yoko-up' : 'yoko-right'
-
-    var yokoSprite = new PIXI.Sprite(PIXI.loader.resources[name].texture)
-    yokoSprite.anchor.set(0.42, yoko.type === 'up' ? 0.56 : 0.6)
-    yokoSprite.position.set(yoko.x, yoko.y)
-    yokoSprite.rotation = yoko.rotation * Math.PI / 180
-    yokoSprite.scale.set(yoko.scale * (yoko.flip ? -1 : 1), yoko.scale)
-    YokoPark.Map.tileContainer.addChild(yokoSprite)
-    yoko.sprite = yokoSprite
-    
-  }
-*/
-  counterYoko = new PIXI.Sprite(PIXI.loader.resources['yoko-jump'].texture)
-  counterYoko.position.set(20, 700)
-  stage.addChild(counterYoko)
+  updateYokoCounter(0)
 
   container.style.display = 'block'  
 }
 
 function render(deltaTime) {
-  if (isCounterAnimated) {
-    var t = counterAnimationTime / Data.counterAnimationPeriod
 
-    if (t >= 1.0) {
-      isCounterAnimated = false
-      counterAnimationTime = 0
-    } else {
-      if (t < 0.3) {
-        t = t / 0.3
-        counterYoko.position.y = 700 + counterYoko.height * t * (t - 2)
-      } else if (t < 0.7) {
-
-      } else {
-        t = (1 - t) / 0.3
-        counterYoko.position.y = 700 - counterYoko.height * t * t * t
-      }
-
-      counterAnimationTime += deltaTime
-    }
-  }
 }
 
 function openWindow(window) {
@@ -141,6 +99,10 @@ function openLocationWindow() {
   openWindow(locationWindow)
 }
 
+function updateYokoCounter(amount) {
+    counter.innerHTML = "" + amount
+}
+
 module.exports = {
   init,
   onAssetsLoaded,
@@ -148,5 +110,6 @@ module.exports = {
   openWindow,
   closeWindow,
   handleClick,
-  openLocationWindow
+  openLocationWindow,
+  updateYokoCounter
 }

@@ -1,12 +1,14 @@
 let textureOptions
 let container, renderer, stage
-let Preloader, Map, UI, Input
+let Preloader, Map, UI, Input, Sound
 let lastFrameTime
 
 function init() {
   container = document.querySelector('.map-container')
 
   PIXI.settings.MIPMAP_TEXTURES = false
+  PIXI.settings.PRECISION = PIXI.PRECISION.HIGH
+  PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST
   renderer = PIXI.autoDetectRenderer(980, 700)
 
   container.appendChild(renderer.view)
@@ -28,6 +30,9 @@ function init() {
 
   Input = require('./Input')
   Input.init(container)
+
+  const _Sound = require('./Sound')
+  Sound = new _Sound()
 
   PIXI.loader.load(function () {
     onAssetsLoaded()
@@ -75,5 +80,6 @@ module.exports = {
   init,
   get renderer() { return renderer },
   get Map() { return Map },
-  get UI() { return UI }
+  get UI() { return UI },
+  get Sound() { return Sound }
 }

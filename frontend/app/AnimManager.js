@@ -1,4 +1,4 @@
-const SpriteAnim = require('./SpriteAnim')
+const Anim = require('./Anim')
 
 module.exports = class {
   constructor(container) {
@@ -7,7 +7,7 @@ module.exports = class {
     this.anims = {}
 
     for (let name in TextureData.animations) {
-      this.anims[name] = new SpriteAnim(name)
+      this.anims[name] = new Anim(name)
     }
 
     const am = this
@@ -18,11 +18,12 @@ module.exports = class {
     }, false)
   }
 
-  onAssetsLoaded() {
+  onAssetsLoaded(stage) {
     const container = this.container
 
     const backContainer = new PIXI.Container()
     container.addChild(backContainer)
+    this.backContainer = backContainer
 
     const overlay = new PIXI.Graphics()
     overlay.lineStyle(2, 0x00FF00)
@@ -50,6 +51,9 @@ module.exports = class {
         case 'hint':
           c = hintContainer
           break
+        case 'misc':
+          c = stage
+          break
       }
 
       anim.init(c)
@@ -72,7 +76,6 @@ module.exports = class {
       if (isPlayable && anim.hit(YokoPark.Map.hoverX, YokoPark.Map.hoverY)) {
         anim.hint.sprite.gotoAndPlay(0)
       }
-      // if (anim.isAnimated) anim.animate(deltaTime)  
     }
   }
 

@@ -11,7 +11,7 @@ module.exports = {
     'submarine'
   ],
   markerRadius: 50,
-  yokoRadius: 100,
+  yokoRadius: 50,
   yokoAnimationPeriod: 500,
   counterAnimationPeriod: 2000,
   hitboxes: {
@@ -76,51 +76,45 @@ module.exports = {
   ],
   yoko: [
     {
-      x: 1958,
-      y: 376,
+      x: 3916,
+      y: 752,
       type: 'up',
       rotation: -109,
-      scale: 0.5,
       flip: false
     },
     {
-      x: 1527,
-      y: 670,
+      x: 3054,
+      y: 1340,
       type: 'right',
       rotation: 20,
-      scale: 0.5,
       flip: true
     },
     {
-      x: 2610,
-      y: 1150,
+      x: 5220,
+      y: 2300,
       type: 'right',
       rotation: 18,
-      scale: 0.5,
       flip: true
     },
     {
-      x: 2890,
-      y: 614,
+      x: 5780,
+      y: 1228,
       type: 'up',
       rotation: -81,
-      scale: 0.5,
       flip: false
     },
     {
-      x: 374,
-      y: 456,
+      x: 748,
+      y: 912,
       type: 'up',
       rotation: 72,
-      scale: 0.5,
       flip: false
     },
     {
-      x: 1135,
-      y: 1122,
+      x: 2270,
+      y: 2244,
       type: 'up',
       rotation: -70,
-      scale: 0.5,
       flip: false
     }
   ]
