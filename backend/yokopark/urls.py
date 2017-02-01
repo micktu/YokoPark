@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from core.views import get_data
 
 urlpatterns = [
+    url(r'^data/', get_data),
     url(r'^admin/', admin.site.urls),
 ]
