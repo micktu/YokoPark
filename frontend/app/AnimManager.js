@@ -64,7 +64,7 @@ module.exports = class {
     }
 
     this.currentActivationIndex = 0
-    this.setNextActivation()
+    //this.setNextActivation()
   }
 
   render(deltaTime) {

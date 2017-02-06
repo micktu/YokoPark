@@ -37,13 +37,12 @@
       "speed": 0.05
     },
     {
-      "path": "Живые декорации - Ambient_animations/Карусель/_YokoSite_Horse_Sprite.png",
+      "path": "Живые декорации - Ambient_animations/Карусель/Horse_Sprite.png",
       "outName": "carousel",
       "width": 700,
       "height": 700,
       "x": 2000,
       "y": 600,
-      "numFrames": 48,
       "speed": 0.5
     }
   ],
@@ -156,9 +155,9 @@
   ],
   "misc": [
     {
-      "path": "Волшебные превращения - FXs/Йоко/Yoko_Sprite.png",
+      "path": "Волшебные превращения - FXs/Йоко/_YokoSite_Swing_Sprite.png",
       "outName": "yoko",
-      "width": 1130,
+      "width": 1024,
       "height": 1024
     }
   ]

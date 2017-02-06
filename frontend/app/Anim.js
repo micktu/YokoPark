@@ -140,6 +140,6 @@ module.exports = class {
         anim.hint.sprite.gotoAndPlay(0)
       }
       anim.armHitPlayback()
-    }, 5000 + 5000 * Math.random())
+    }, Data.hintPeriodMin + Data.hintPeriodMax * Math.random())
   }
 }

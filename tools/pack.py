@@ -1,5 +1,6 @@
 import math
 import json
+from collections import OrderedDict
 from PIL import Image
 
 settings = {
@@ -71,7 +72,7 @@ def finalizeAnimation(outImage, anim, currentTexture):
     outImage.save(outPath)
     print "Saved animation '%s' texture %d" % (anim['outName'], currentTexture)
 
-outData['animations'] = {}
+outData['animations'] = OrderedDict()
 
 for category, animList in animations.items():
     for anim in animList:
