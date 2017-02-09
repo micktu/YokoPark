@@ -269,6 +269,30 @@
   padding: 0 20px;
 }
 
+.map-container .window.hint {
+  top: 519px;
+  left: 26px;
+  width: 423px;
+  height: 162px;
+  background: url('../images/layout/window-hint.png');
+  padding: 0 40px 0 35px;
+}
+
+.map-container .window.hint h3 {
+  text-align: left;
+  margin: 30px 0 0 3px;
+  font-size: 16pt;
+}
+
+.map-container .window.hint .button.close {
+  top: 22px;
+  right: 22px;
+}
+
+.map-container .window.hint p {
+  margin-top: 15px;
+}
+
 .map-container .counter {
   position: absolute;
   bottom: 4px;

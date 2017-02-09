@@ -40,8 +40,8 @@ function init() {
 }
 
 function onAssetsLoaded() {
-  Map.onAssetsLoaded(stage)
   UI.onAssetsLoaded(stage)
+  Map.onAssetsLoaded(stage)
 
   Preloader.hide()
 

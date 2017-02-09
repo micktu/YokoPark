@@ -90,6 +90,10 @@ function mouseDown(x, y) {
 function mouseUp(x, y) {
   isDragging = false
 
+  // @hack to make counter area unclickable on map
+  const view = YokoPark.renderer.view
+  if (x < 130 && y > view.height - 80) return
+
   var dx = x - dragX
   var dy = y - dragY
 
@@ -154,6 +158,7 @@ module.exports = {
   mouseUp,
   mouseMove,
   get animManager() { return animManager },
+  get yokoManager() { return yokoManager },
   get hoverX() { return hoverX },
   get hoverY() { return hoverY }
 }

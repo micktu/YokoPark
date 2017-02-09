@@ -1,6 +1,6 @@
 let container
-let locationWindow, episodeWindow, gameWindow
-let isWindowOpen = false
+let locationWindow, episodeWindow, gameWindow, hintWindow
+let currentWindow, helpOpenedByMouseover = false
 let counter
 
 function init(с) {
@@ -8,6 +8,7 @@ function init(с) {
   locationWindow = container.querySelector('.window.location')
   episodeWindow = container.querySelector('.window.episode')
   gameWindow = container.querySelector('.window.game')
+  hintWindow = container.querySelector('.window.hint')
 
   var windows = container.querySelectorAll('.window')
 
@@ -42,18 +43,41 @@ function onAssetsLoaded(stage) {
 
   var episodeButton = locationWindow.querySelector('.button.left')
   episodeButton.addEventListener('click', function () {
-    swapWindow(locationWindow, episodeWindow)
+    openWindow(episodeWindow)
   })
 
   var gameButton = locationWindow.querySelector('.button.right')
   gameButton.addEventListener('click', function () {
-    swapWindow(locationWindow, gameWindow)
+    openWindow(gameWindow)
+  })
+
+  container.querySelector('.counter').addEventListener('click', function () {
+    helpOpenedByMouseover = false
+
+    if (currentWindow !== hintWindow)
+      openWindow(hintWindow)
+    else
+      closeWindow(hintWindow)
+  })
+
+  const help = container.querySelector('.counter .help')
+
+  help.addEventListener('mouseover', function() {
+    if (currentWindow !== hintWindow) {
+      openWindow(hintWindow)
+      helpOpenedByMouseover = true
+    }
+  })
+
+  help.addEventListener('mouseout', function() {
+    if (helpOpenedByMouseover && currentWindow === hintWindow) {
+      closeWindow(hintWindow)
+    }
   })
 
   counter = container.querySelector('.counter span')
-  updateYokoCounter(0)
 
-  container.style.display = 'block'  
+  container.style.display = 'block'
 }
 
 function render(deltaTime) {
@@ -61,28 +85,29 @@ function render(deltaTime) {
 }
 
 function openWindow(window) {
+  if (currentWindow) {
+    closeWindow(currentWindow)
+    setTimeout(function () {
+      openWindow(window)
+    }, 300)
+    return
+  }
+
   window.style.visibility = 'visible'
   window.style.opacity = 1.0
-  isWindowOpen = true
+  currentWindow = window
 }
 
 function closeWindow(window) {
   window.style.opacity = 0
   setTimeout(function () {
     window.style.visibility = 'hidden'
-    isWindowOpen = false
-  }, 300)
-}
-
-function swapWindow(fromWindow, toWindow) {
-  closeWindow(fromWindow)
-  setTimeout(function () {
-    openWindow(toWindow)
+    currentWindow = null
   }, 300)
 }
 
 function handleClick(mapX, mapY) {
-  if (isWindowOpen) {
+  if (currentWindow) {
     var windows = container.querySelectorAll('.window')
 
     for (var i = 0; i < windows.length; i++) {
@@ -99,8 +124,9 @@ function openLocationWindow() {
   openWindow(locationWindow)
 }
 
-function updateYokoCounter(amount) {
-    counter.innerHTML = "" + amount
+function updateYokoCounter(amount, totalAmount) {
+  counter.innerHTML = "" + amount
+  hintWindow.querySelector('h3').innerHTML = `Найдено ${amount} из ${totalAmount} Йоко`
 }
 
 module.exports = {

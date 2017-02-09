@@ -11,6 +11,8 @@ module.exports = class {
   }
 
   onAssetsLoaded(stage) {
+    this.totalAmount = Data.yoko.length
+
     for (let yoko of Data.yoko) {
       var name = yoko.type === 'up' ? 'yoko-up' : 'yoko-right'
 
@@ -42,6 +44,8 @@ module.exports = class {
     anim.sprite.visible = true
 
     this.anim = anim
+    
+    YokoPark.UI.updateYokoCounter(this.collected, this.totalAmount)
   }
 
   render(deltaTime) {
@@ -50,7 +54,7 @@ module.exports = class {
 
       if (yoko.animationTime >= Data.yokoAnimationPeriod) {
         //this.collect()
-        YokoPark.UI.updateYokoCounter(this.collected)
+        YokoPark.UI.updateYokoCounter(this.collected, this.totalAmount)
         
 
         this.container.removeChild(yoko.sprite)
