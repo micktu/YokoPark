@@ -8,7 +8,7 @@ function init() {
 
   PIXI.settings.MIPMAP_TEXTURES = false
   PIXI.settings.PRECISION = PIXI.PRECISION.HIGH
-  PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST
+  PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST
   renderer = PIXI.autoDetectRenderer(980, 700)
 
   container.appendChild(renderer.view)
@@ -51,8 +51,8 @@ function onAssetsLoaded() {
 function render(time) {
   if (lastFrameTime) {
     const deltaTime = time - lastFrameTime
-    Map.render(deltaTime)
-    UI.render(deltaTime)
+    Map.render(deltaTime, time)
+    UI.render(deltaTime, time)
   }
 
   lastFrameTime = time

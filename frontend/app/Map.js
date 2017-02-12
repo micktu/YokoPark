@@ -51,7 +51,7 @@ function onAssetsLoaded(stage) {
   yokoManager.onAssetsLoaded()
 }
 
-function render(deltaTime) {
+function render(deltaTime, time) {
   var c = tileContainer
 
   if (isDragging) {
@@ -71,9 +71,9 @@ function render(deltaTime) {
     clampMapBounds()
   }
 
-  locManager.render(deltaTime)
-  animManager.render(deltaTime)
-  yokoManager.render(deltaTime)
+  locManager.render(deltaTime, time)
+  animManager.render(deltaTime, time)
+  yokoManager.render(deltaTime, time)
 }
 
 function mouseDown(x, y) {

@@ -15,6 +15,9 @@ module.exports = {
   markerRadius: 50,
   yokoRadius: 50,
   yokoAnimationPeriod: 500,
+  yokoAppearPeriodMin: 1000,
+  yokoAppearPeriodMax: 2000,
+  yokoStayPeriod: 3000,
   counterAnimationPeriod: 2000,
   hitboxes: {
     rocket: {
