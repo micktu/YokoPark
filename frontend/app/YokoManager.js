@@ -169,9 +169,12 @@ module.exports = class {
           break
         }
 
+        YokoPark.UI.updateYokoCounter(this.collected, this.totalAmount)
+
         this.container.removeChild(yoko.sprite)
         yoko.sprite = null
         this.yokos.splice(this.yokos.indexOf(yoko), 1)
+        this.activeYoko = null
         this.state = "idle"
         break
     }
@@ -180,19 +183,21 @@ module.exports = class {
   }
 
   handleClick(x, y) {
-    for (let yoko of this.yokos) {
-      if (yoko.animationType || !yoko.sprite.visible) continue
+    const yoko = this.activeYoko
+
+    if (!yoko) return false
+    //for (let yoko of this.yokos) {
+      //if (yoko.animationType || !yoko.sprite.visible) continue
+      if (this.state !== "beforeDisappearing") return false
 
       var dX = x - yoko.mapX
       var dY = y - yoko.mapY
 
       if (dX * dX + dY * dY <= Data.yokoRadius * Data.yokoRadius) {
-        clearTimeout(yoko.hideTimeout)
-        //this.animate(yoko, "collect", Data.yokoAnimationPeriod)
         this.collect()
         return true
       }
-    }
+    //}
 
     return false
   }
@@ -219,11 +224,6 @@ module.exports = class {
     this.collected++
     this.anim.sprite.gotoAndPlay(0)
     YokoPark.Sound.playJingle()
-
-    const yoko = this
-    setTimeout(function () {
-      YokoPark.UI.updateYokoCounter(yoko.collected, yoko.totalAmount)
-    }, Data.yokoAnimationPeriod)
   }
 
   rotate(x, y, angle) {
