@@ -316,7 +316,7 @@
 .map-container .counter .count {
   position: absolute;
   width: 100%;
-  top: 3px;
+  top: 15px;
   left: 0;
   text-align: center;
 }
@@ -324,7 +324,7 @@
 .map-container .counter span {
   font-family: "TF2Build", sans-serif;
   color: #ffffff;
-  font-size: 38pt;
+  font-size: 24pt;
   text-shadow: 2px 2px rgba(0,0,0,0.3);
 }
 

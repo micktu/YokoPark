@@ -87,7 +87,7 @@ module.exports = class {
   }
 
   render(deltaTime, time) {
-    if (this.lastState != this.state) {
+    if (this.lastState !== this.state) {
       this.stateTime = 0
       this.lastState = this.state
     }

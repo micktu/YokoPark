@@ -128,7 +128,8 @@ function openLocationWindow() {
 }
 
 function updateYokoCounter(amount, totalAmount) {
-  counter.innerHTML = "" + amount
+  //counter.innerHTML = "" + amount
+  counter.innerHTML = `${amount}/${totalAmount}`
   hintWindow.querySelector('h3').innerHTML = `Найдено ${amount} из ${totalAmount} Йоко`
 }
 
