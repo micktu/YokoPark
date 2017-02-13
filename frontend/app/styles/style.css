@@ -270,8 +270,8 @@
 }
 
 .map-container .window.hint {
-  top: 519px;
-  left: 26px;
+  top: 500px;
+  left: 130px;
   width: 423px;
   height: 162px;
   background: url('../images/layout/window-hint.png');
@@ -280,7 +280,7 @@
 
 .map-container .window.hint h3 {
   text-align: left;
-  margin: 30px 0 0 3px;
+  margin: 30px 0 0 1px;
   font-size: 16pt;
 }
 
@@ -290,7 +290,9 @@
 }
 
 .map-container .window.hint p {
-  margin-top: 15px;
+  margin-top: 10px;
+  font-size: 12pt;
+  line-height: 16pt;
 }
 
 .map-container .counter {

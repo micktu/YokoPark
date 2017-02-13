@@ -5,6 +5,11 @@ module.exports = class {
     this.animatedYokos = []
     this.collected = 0
 
+    this.activeYoko = null
+    this.state = "idle"
+    this.lastState = this.state
+    this.stateTime = 0
+
     this.nextYokoTime = 0
     this.lastYokoIndex = 0
 
@@ -82,83 +87,96 @@ module.exports = class {
   }
 
   render(deltaTime, time) {
-    if (time >= this.nextYokoTime) {
-      const length = this.yokos.length
-      const index = (this.lastYokoIndex + Math.floor(Math.random() * (length - 1)) + 1) % length
-      const yoko = this.yokos[index]
-      this.lastYokoIndex = index
-
-      this.setupMask(yoko)
-      yoko.sprite.visible = true
-
-      this.animate(yoko, "show", Data.yokoAnimationPeriod)
-
-      const manager = this
-      yoko.hideTimeout = setTimeout(function () {
-        manager.setupMask(yoko)
-        manager.animate(yoko, "hide", Data.yokoAnimationPeriod)
-      }, Data.yokoAnimationPeriod + Data.yokoStayPeriod)
-
-      this.nextYokoTime = time + Data.yokoAnimationPeriod + Data.yokoStayPeriod + Data.yokoAppearPeriodMin + Math.round(Math.random() * Data.yokoAppearPeriodMax)
+    if (this.lastState != this.state) {
+      this.stateTime = 0
+      this.lastState = this.state
     }
 
-    for (let i = 0; i < this.animatedYokos.length; i++) {
-      const yoko = this.animatedYokos[i]
-      let h
+    let yoko
 
-      if (yoko.animationTime < yoko.animationDuration) {
-        var t = yoko.animationTime / yoko.animationDuration
-        yoko.animationTime += deltaTime
+    switch (this.state) {
+      case "idle":
+        const length = this.yokos.length
+        const index = (this.lastYokoIndex + Math.floor(Math.random() * (length - 1)) + 1) % length
+        this.lastYokoIndex = index
+        yoko = this.yokos[index]
 
-        switch (yoko.animationType) {
-          case "collect":
-            yoko.sprite.scale.x = yoko.scaleX * (1 + 0.5 * t)
-            yoko.sprite.scale.y = yoko.scaleY * (1 + 0.5 * t)
-            yoko.sprite.alpha = 1 - t
-            continue
-          case "show":
-            //yoko.sprite.alpha = t
-            t = 1 - t
-            t = t * t * t * t * t
-            h = t * 0.6 * yoko.height
-            yoko.sprite.position.x = yoko.mapX + h * yoko.normal.x
-            yoko.sprite.position.y = yoko.mapY + h * yoko.normal.y
-            continue
-          case "hide":
-            //yoko.sprite.alpha = 1 - t
-            t = t * t * t * t * t
-            h = t * 0.6 * yoko.height
-            yoko.sprite.position.x = yoko.mapX + h * yoko.normal.x
-            yoko.sprite.position.y = yoko.mapY + h * yoko.normal.y
-            continue
+        this.setupMask(yoko)
+        this.setYokoAnimationOffset(yoko, 0)
+        yoko.sprite.visible = true
+        this.activeYoko = yoko
+        this.state = "appearing"
+        break
+
+      case "appearing":
+        yoko = this.activeYoko
+
+        if (this.stateTime < Data.yokoAnimationPeriod) {
+          let t = this.stateTime / Data.yokoAnimationPeriod
+          this.setYokoAnimationOffset(yoko, 1 - t)
+          break
         }
-      }
 
-      switch (yoko.animationType) {
-        case "collect":
-          this.container.removeChild(yoko.sprite)
-          yoko.sprite = null
-          this.yokos.splice(this.yokos.indexOf(yoko), 1)
-          break
-        case "show":
-          //yoko.sprite.alpha = 1
-          yoko.sprite.position.x = yoko.mapX
-          yoko.sprite.position.y = yoko.mapY
-          yoko.sprite.mask.visible = false
-          yoko.sprite.mask = null
-          break
-        case "hide":
-          yoko.sprite.visible = false
-          yoko.sprite.mask.visible = false
-          yoko.sprite.mask = null
-          //yoko.sprite.alpha = 0
-          break
-      }
+        this.setYokoAnimationOffset(yoko, 0)
+        yoko.sprite.mask.visible = false
+        yoko.sprite.mask = null
+        this.state = "waiting"
+        break
 
-      yoko.animationType = null
-      this.animatedYokos.splice(i, 1)
-      i--
+      case "waiting":
+        yoko = this.activeYoko
+        const bounds = YokoPark.Map.getScreenBounds()
+        if (bounds.left > yoko.mapX || bounds.top > yoko.mapY || bounds.right < yoko.mapX || bounds.bottom < yoko.mapY) {
+          break
+        }
+
+        this.state = "beforeDisappearing"
+        break
+      case "beforeDisappearing":
+        yoko = this.activeYoko
+      
+        if (this.stateTime < Data.yokoStayPeriod) {
+          break
+        }
+
+        this.setupMask(yoko)
+        this.state = "disappearing"
+        break
+      case "disappearing":
+        yoko = this.activeYoko
+      
+        if (this.stateTime < Data.yokoAnimationPeriod) {
+          let t = this.stateTime / Data.yokoAnimationPeriod
+          this.setYokoAnimationOffset(yoko, t)
+          break
+        }
+
+        this.setYokoAnimationOffset(yoko, 0)
+        yoko.sprite.mask.visible = false
+        yoko.sprite.mask = null
+        yoko.sprite.visible = false
+        this.state = "idle"
+        break
+
+      case "collected":
+        yoko = this.activeYoko
+      
+        if (this.stateTime < Data.yokoAnimationPeriod) {
+          let t = this.stateTime / Data.yokoAnimationPeriod
+          yoko.sprite.scale.x = yoko.scaleX * (1 + 0.5 * t)
+          yoko.sprite.scale.y = yoko.scaleY * (1 + 0.5 * t)
+          yoko.sprite.alpha = 1 - t
+          break
+        }
+
+        this.container.removeChild(yoko.sprite)
+        yoko.sprite = null
+        this.yokos.splice(this.yokos.indexOf(yoko), 1)
+        this.state = "idle"
+        break
     }
+
+    this.stateTime += deltaTime
   }
 
   handleClick(x, y) {
@@ -170,7 +188,7 @@ module.exports = class {
 
       if (dX * dX + dY * dY <= Data.yokoRadius * Data.yokoRadius) {
         clearTimeout(yoko.hideTimeout)
-        this.animate(yoko, "collect", Data.yokoAnimationPeriod)
+        //this.animate(yoko, "collect", Data.yokoAnimationPeriod)
         this.collect()
         return true
       }
@@ -187,16 +205,17 @@ module.exports = class {
   }
 
   setupMask(yoko) {
-      const mask = yoko.type === 'up' ? this.maskUp : this.maskRight
-      const sprite = yoko.sprite
-      mask.position = sprite.position
-      mask.rotation = sprite.rotation
-      mask.scale = sprite.scale
-      mask.visible = true
-      sprite.mask = mask
+    const mask = yoko.type === 'up' ? this.maskUp : this.maskRight
+    const sprite = yoko.sprite
+    mask.position = sprite.position
+    mask.rotation = sprite.rotation
+    mask.scale = sprite.scale
+    mask.visible = true
+    sprite.mask = mask
   }
 
   collect() {
+    this.state = "collected"
     this.collected++
     this.anim.sprite.gotoAndPlay(0)
     YokoPark.Sound.playJingle()
@@ -211,5 +230,12 @@ module.exports = class {
     const cosA = Math.cos(angle)
     const sinA = Math.sin(angle)
     return new PIXI.Point(x * cosA - y * sinA, x * sinA + y * cosA)
+  }
+
+  setYokoAnimationOffset(yoko, t) {
+    t = t * t * t * t * t
+    const h = t * 0.6 * yoko.height
+    yoko.sprite.position.x = yoko.mapX + h * yoko.normal.x
+    yoko.sprite.position.y = yoko.mapY + h * yoko.normal.y
   }
 }

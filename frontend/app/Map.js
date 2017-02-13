@@ -150,6 +150,12 @@ function clampMapBounds() {
     c.y = renderer.height - mapHeight
 }
 
+function getScreenBounds() {
+  const r = YokoPark.renderer
+  const c = tileContainer
+  return new PIXI.Rectangle(-c.x, -c.y, -c.x + r.width, -c.y + r.height)
+}
+
 module.exports = {
   init,
   onAssetsLoaded,
@@ -157,6 +163,7 @@ module.exports = {
   mouseDown,
   mouseUp,
   mouseMove,
+  getScreenBounds,
   get animManager() { return animManager },
   get yokoManager() { return yokoManager },
   get hoverX() { return hoverX },

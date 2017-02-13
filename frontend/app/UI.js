@@ -60,6 +60,7 @@ function onAssetsLoaded(stage) {
       closeWindow(hintWindow)
   })
 
+  /*
   const help = container.querySelector('.counter .help')
 
   help.addEventListener('mouseover', function() {
@@ -74,6 +75,7 @@ function onAssetsLoaded(stage) {
       closeWindow(hintWindow)
     }
   })
+  */
 
   counter = container.querySelector('.counter span')
 
@@ -114,7 +116,8 @@ function handleClick(mapX, mapY) {
       closeWindow(windows[i])
     }
 
-    return true
+    //return true
+    return false
   }
 
   return false
