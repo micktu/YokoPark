@@ -1,9 +1,8 @@
 module.exports = class {
   constructor(container) {
     this.container = container
-    this.yokos = []
+    this.allYokos = []
     this.animatedYokos = []
-    this.collected = 0
 
     this.activeYoko = null
     this.state = "idle"
@@ -19,8 +18,6 @@ module.exports = class {
   }
 
   onAssetsLoaded(stage) {
-    this.totalAmount = Data.yoko.length
-
     const textureUp = PIXI.loader.resources['yoko-up'].texture
     const textureRight = PIXI.loader.resources['yoko-right'].texture
 
@@ -67,23 +64,20 @@ module.exports = class {
 
       yoko.height = sprite.height
 
-      sprite.visible = false
-      //sprite.alpha = 0
-
       this.container.addChild(sprite)
       yoko.sprite = sprite
-      this.yokos.push(yoko)
+      this.allYokos.push(yoko)
     }
+
+    //this.allYokos = this.allYokos.splice(0, 2)
+    this.resetYokos()
 
     const anim = YokoPark.Map.animManager.anims.yoko
     anim.sprite.anchor.set(0.0, 1.0)
-    //anim.sprite.x = 100
     anim.sprite.y = YokoPark.renderer.height
     anim.sprite.visible = true
 
     this.anim = anim
-
-    YokoPark.UI.updateYokoCounter(this.collected, this.totalAmount)
   }
 
   render(deltaTime, time) {
@@ -96,13 +90,22 @@ module.exports = class {
 
     switch (this.state) {
       case "idle":
+        if (this.yokos == null) break
+
         const length = this.yokos.length
+
+        if (length < 1) {
+          YokoPark.UI.openSocialWindow()
+          this.yokos = null
+          break
+        }
+
         const index = (this.lastYokoIndex + Math.floor(Math.random() * (length - 1)) + 1) % length
         this.lastYokoIndex = index
         yoko = this.yokos[index]
 
         this.setupMask(yoko)
-        this.setYokoAnimationOffset(yoko, 0)
+        this.setYokoAnimationOffset(yoko, 1)
         yoko.sprite.visible = true
         this.activeYoko = yoko
         this.state = "appearing"
@@ -171,8 +174,9 @@ module.exports = class {
 
         YokoPark.UI.updateYokoCounter(this.collected, this.totalAmount)
 
-        this.container.removeChild(yoko.sprite)
-        yoko.sprite = null
+        //this.container.removeChild(yoko.sprite)
+        //yoko.sprite = null
+        yoko.sprite.visible = false
         this.yokos.splice(this.yokos.indexOf(yoko), 1)
         this.activeYoko = null
         this.state = "idle"
@@ -237,5 +241,25 @@ module.exports = class {
     const h = t * 0.6 * yoko.height
     yoko.sprite.position.x = yoko.mapX + h * yoko.normal.x
     yoko.sprite.position.y = yoko.mapY + h * yoko.normal.y
+  }
+
+  resetYokos() {
+    this.yokos = this.allYokos.slice()
+    this.activeYoko = null
+
+    for (let i = 0; i < this.yokos.length; i++) {
+      const yoko = this.yokos[i]
+
+      yoko.sprite.position.set(yoko.mapX, yoko.mapY)
+      yoko.sprite.scale.set(yoko.scaleX, yoko.scaleY)
+      yoko.sprite.alpha = 1
+      yoko.sprite.visible = false
+    }
+
+    this.state = "idle"
+
+    this.collected = 0
+    this.totalAmount = this.yokos.length
+    YokoPark.UI.updateYokoCounter(this.collected, this.totalAmount)
   }
 }

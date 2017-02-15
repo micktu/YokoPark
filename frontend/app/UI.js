@@ -1,5 +1,5 @@
 let container
-let locationWindow, episodeWindow, gameWindow, hintWindow
+let locationWindow, episodeWindow, gameWindow, hintWindow, socialWindow
 let currentWindow, helpOpenedByMouseover = false
 let counter
 
@@ -9,6 +9,7 @@ function init(с) {
   episodeWindow = container.querySelector('.window.episode')
   gameWindow = container.querySelector('.window.game')
   hintWindow = container.querySelector('.window.hint')
+  socialWindow = container.querySelector('.window.social')
 
   var windows = container.querySelectorAll('.window')
 
@@ -26,6 +27,9 @@ function init(с) {
     w.addEventListener('touchstart', stop)
     w.addEventListener('touchend', stop)
   }
+
+  socialWindow.style.visibility = 'visible'
+  socialWindow.style.opacity = 1
 }
 
 function onAssetsLoaded(stage) {
@@ -77,6 +81,22 @@ function onAssetsLoaded(stage) {
   })
   */
 
+  const buttons = container.querySelectorAll('.window.social .buttons .share a')
+
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', function (event) {
+      window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=480,width=640')
+      event.preventDefault()
+    })
+  }
+
+  container.querySelector('.window.social .buttons .replay').addEventListener('click', function (event) {
+    YokoPark.Map.yokoManager.resetYokos()
+    closeWindow(socialWindow)
+
+    event.preventDefault()
+  })
+
   counter = container.querySelector('.counter span')
 
   container.style.display = 'block'
@@ -127,6 +147,10 @@ function openLocationWindow() {
   openWindow(locationWindow)
 }
 
+function openSocialWindow() {
+  openWindow(socialWindow)
+}
+
 function updateYokoCounter(amount, totalAmount) {
   //counter.innerHTML = "" + amount
   counter.innerHTML = `${amount}/${totalAmount}`
@@ -141,5 +165,6 @@ module.exports = {
   closeWindow,
   handleClick,
   openLocationWindow,
+  openSocialWindow,
   updateYokoCounter
 }

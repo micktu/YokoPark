@@ -24,6 +24,13 @@
   text-align: center;
 }
 
+.map-container h4 {
+  font-family: "TF2Build", sans-serif;
+  font-size: 10pt;
+  color: #de008a;
+  text-align: left;
+}
+
 .map-container p {
   font-family: "Helvetiva", "Arial", sans-serif;
   font-size: 14pt;
@@ -293,6 +300,85 @@
   margin-top: 10px;
   font-size: 12pt;
   line-height: 16pt;
+}
+
+.map-container .window.social {
+  top: 184px;
+  left: 232px;
+  width: 488px;
+  height: 332px;
+  background: url('../images/layout/window-social.png');
+  padding: 0 60px 0 60px;
+}
+
+.map-container .window.social h3 {
+  text-align: left;
+  margin: 25px 0 0 1px;
+  font-size: 16pt;
+  line-height: 22pt;
+}
+
+.map-container .window.social .button.close {
+  top: 15px;
+  right: 18px;
+}
+
+.map-container .window.social p {
+  margin-top: 10px;
+}
+
+.map-container .window.social h4 {
+  margin-top: 18px;
+  font-size: 8pt;
+}
+
+.map-container .window.social h4 {
+  font-size: 8pt;
+  position: absolute;
+  left: 61px;
+  bottom: 43px;
+}
+
+.map-container .window.social .buttons {
+  list-style: none;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  bottom: 45px;
+  left: 54px;
+}
+
+.map-container .window.social .buttons li {
+  position: absolute;
+  top: 0;
+}
+
+.map-container .window.social .buttons .vk {
+  left: 0;
+}
+
+.map-container .window.social .buttons .fb {
+  top: -2px;
+  left: 62px;
+}
+
+.map-container .window.social .buttons .okl {
+  left: 120px;
+}
+
+.map-container .window.social .buttons .twitter {
+  top: 4px;
+  left: 180px;
+}
+
+.map-container .window.social .buttons .gplus {
+  top: 4px;
+  left: 240px;
+}
+
+.map-container .window.social .buttons .replay {
+  top: -10px;
+  left: 330px;
 }
 
 .map-container .counter {
