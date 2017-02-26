@@ -38,7 +38,8 @@ module.exports = class {
     this.container.addChild(mask)
     this.maskRight = mask
 
-    for (let yoko of Data.yoko) {
+    for (let i = 0; i < Data.yoko.length; i++) {
+      const yoko = Data.yoko[i];
       yoko.mapX = yoko.x * TextureData.scale
       yoko.mapY = yoko.y * TextureData.scale
 
@@ -69,7 +70,6 @@ module.exports = class {
       this.allYokos.push(yoko)
     }
 
-    //this.allYokos = this.allYokos.splice(0, 2)
     this.resetYokos()
 
     const anim = YokoPark.Map.animManager.anims.yoko
@@ -94,7 +94,7 @@ module.exports = class {
 
         const length = this.yokos.length
 
-        if (length < 1) {
+        if (length < 30) {
           YokoPark.UI.openSocialWindow()
           this.yokos = null
           break

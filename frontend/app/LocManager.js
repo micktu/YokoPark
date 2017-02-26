@@ -7,7 +7,8 @@ module.exports = class {
   }
 
   onAssetsLoaded() {
-    for (let loc of Data.markers) {
+    for (let i = 0; i < Data.markers.length; i++) {
+      const loc = Data.markers[i];
       loc.animationTime = 1000 * Math.random() * Math.PI / 2
       loc.mapX = loc.x * TextureData.scale
       loc.mapY = loc.y * TextureData.scale
@@ -24,7 +25,8 @@ module.exports = class {
   }
 
   render(deltaTime) {
-    for (let loc of this.locs) {
+    for (let i = 0; i < this.locs.length; i++) {
+      const loc = this.locs[i];
       const val = Math.cos(loc.animationTime / 1000) * 2
       loc.sprite.y = loc.mapY + val * val * val * val
       loc.animationTime += deltaTime
@@ -32,7 +34,8 @@ module.exports = class {
   }
 
   handleClick(x, y) {
-    for (let loc of this.locs) {
+    for (let i = 0; i < this.locs.length; i++) {
+      const loc = this.locs[i];
       var dX = x - loc.mapX
       var dY = y - loc.mapY
 

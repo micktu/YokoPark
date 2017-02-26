@@ -1,170 +1,147 @@
-let container
-let locationWindow, episodeWindow, gameWindow, hintWindow, socialWindow
-let currentWindow, helpOpenedByMouseover = false
-let counter
+module.exports = class {
+  constructor(container) {
+    this.container = container
+    this.windows = {}
 
-function init(с) {
-  container = с
-  locationWindow = container.querySelector('.window.location')
-  episodeWindow = container.querySelector('.window.episode')
-  gameWindow = container.querySelector('.window.game')
-  hintWindow = container.querySelector('.window.hint')
-  socialWindow = container.querySelector('.window.social')
-
-  var windows = container.querySelectorAll('.window')
-
-  for (var i = 0; i < windows.length; i++) {
-    var w = windows[i]
-    w.style.visibility = 'hidden'
-    w.style.opacity = 0
-
-    var stop = function (event) {
-      event.stopPropagation()
-    }
-
-    w.addEventListener('mousedown', stop)
-    w.addEventListener('mouseup', stop)
-    w.addEventListener('touchstart', stop)
-    w.addEventListener('touchend', stop)
-  }
-
-  socialWindow.style.visibility = 'visible'
-  socialWindow.style.opacity = 1
-}
-
-function onAssetsLoaded(stage) {
-  var closeButtons = container.querySelectorAll('.button.close')
-
-  for (var i = 0; i < closeButtons.length; i++) {
-    var button = closeButtons[i]
-
-    var f = function (button) {
-      return function () { closeWindow(button.parentElement) }
-    }
-
-    button.addEventListener('click', f(button))
-  }
-
-  var episodeButton = locationWindow.querySelector('.button.left')
-  episodeButton.addEventListener('click', function () {
-    openWindow(episodeWindow)
-  })
-
-  var gameButton = locationWindow.querySelector('.button.right')
-  gameButton.addEventListener('click', function () {
-    openWindow(gameWindow)
-  })
-
-  container.querySelector('.counter').addEventListener('click', function () {
-    helpOpenedByMouseover = false
-
-    if (currentWindow !== hintWindow)
-      openWindow(hintWindow)
-    else
-      closeWindow(hintWindow)
-  })
-
-  /*
-  const help = container.querySelector('.counter .help')
-
-  help.addEventListener('mouseover', function() {
-    if (currentWindow !== hintWindow) {
-      openWindow(hintWindow)
-      helpOpenedByMouseover = true
-    }
-  })
-
-  help.addEventListener('mouseout', function() {
-    if (helpOpenedByMouseover && currentWindow === hintWindow) {
-      closeWindow(hintWindow)
-    }
-  })
-  */
-
-  const buttons = container.querySelectorAll('.window.social .buttons .share a')
-
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', function (event) {
-      window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=480,width=640')
-      event.preventDefault()
-    })
-  }
-
-  container.querySelector('.window.social .buttons .replay').addEventListener('click', function (event) {
-    YokoPark.Map.yokoManager.resetYokos()
-    closeWindow(socialWindow)
-
-    event.preventDefault()
-  })
-
-  counter = container.querySelector('.counter span')
-
-  container.style.display = 'block'
-}
-
-function render(deltaTime) {
-
-}
-
-function openWindow(window) {
-  if (currentWindow) {
-    closeWindow(currentWindow)
-    setTimeout(function () {
-      openWindow(window)
-    }, 300)
-    return
-  }
-
-  window.style.visibility = 'visible'
-  window.style.opacity = 1.0
-  currentWindow = window
-}
-
-function closeWindow(window) {
-  window.style.opacity = 0
-  setTimeout(function () {
-    window.style.visibility = 'hidden'
-    currentWindow = null
-  }, 300)
-}
-
-function handleClick(mapX, mapY) {
-  if (currentWindow) {
-    var windows = container.querySelectorAll('.window')
+    const windows = container.querySelectorAll('.window')
 
     for (var i = 0; i < windows.length; i++) {
-      closeWindow(windows[i])
+      var w = windows[i]
+      w.style.visibility = 'hidden'
+      w.style.opacity = 0
+
+      const stop = function (event) {
+        event.stopPropagation()
+      }
+
+      w.addEventListener('mousedown', stop)
+      w.addEventListener('mouseup', stop)
+      w.addEventListener('touchstart', stop)
+      w.addEventListener('touchend', stop)
+
+      this.windows[w.classList.item(1)] = w;
+    }
+  }
+
+  onAssetsLoaded(stage) {
+    const closeButtons = this.container.querySelectorAll('.button.close')
+    const ui = this;
+
+    for (var i = 0; i < closeButtons.length; i++) {
+      var button = closeButtons[i]
+
+      var f = function (button) {
+        return function () { ui.closeWindow(button.parentElement) }
+      }
+
+      button.addEventListener('click', f(button))
     }
 
-    //return true
+    var episodeButton = this.windows.location.querySelector('.button.left')
+    episodeButton.addEventListener('click', function () {
+      ui.openWindow(ui.windows.episode)
+    })
+
+    var gameButton = this.windows.location.querySelector('.button.right')
+    gameButton.addEventListener('click', function () {
+      ui.openWindow(ui.windows.game)
+    })
+
+    this.container.querySelector('.counter').addEventListener('click', function () {
+      ui.helpOpenedByMouseover = false
+
+      if (ui.currentWindow !== ui.windows.hint)
+        ui.openWindow(ui.windows.hint)
+      else
+        ui.closeWindow(ui.windows.hint)
+    })
+
+    /*
+    const help = container.querySelector('.counter .help')
+  
+    help.addEventListener('mouseover', function() {
+      if (currentWindow !== hintWindow) {
+        openWindow(hintWindow)
+        helpOpenedByMouseover = true
+      }
+    })
+  
+    help.addEventListener('mouseout', function() {
+      if (helpOpenedByMouseover && currentWindow === hintWindow) {
+        closeWindow(hintWindow)
+      }
+    })
+    */
+
+    const buttons = this.container.querySelectorAll('.window.social .buttons .share a')
+
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function (event) {
+        window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=800')
+        event.preventDefault()
+      })
+    }
+
+    this.container.querySelector('.window.social .buttons .replay').addEventListener('click', function (event) {
+      YokoPark.Map.yokoManager.resetYokos()
+      ui.closeWindow(ui.windows.social)
+
+      event.preventDefault()
+    })
+
+    this.counter = this.container.querySelector('.counter span')
+
+    this.container.style.display = 'block'
+  }
+
+  openWindow(window) {
+    if (this.currentWindow) {
+      this.closeWindow(this.currentWindow)
+      const ui = this;
+      setTimeout(function () {
+        ui.openWindow(window)
+      }, 300)
+      return
+    }
+
+    window.style.visibility = 'visible'
+    window.style.opacity = 1.0
+    this.currentWindow = window
+  }
+
+  closeWindow(window) {
+    window.style.opacity = 0
+    const ui = this;
+    setTimeout(function () {
+      window.style.visibility = 'hidden'
+      ui.currentWindow = null
+    }, 300)
+  }
+
+  openLocationWindow() {
+    this.openWindow(this.windows.location);
+  }
+
+  openGameWindow() {
+    this.openWindow(this.windows.game);
+  }
+
+  openSocialWindow() {
+    this.openWindow(this.windows.social);
+  }
+
+  handleClick(mapX, mapY) {
+    if (this.currentWindow) {
+      this.closeWindow(this.currentWindow);
+
+      //return true
+    }
+
     return false
   }
 
-  return false
-}
-
-function openLocationWindow() {
-  openWindow(locationWindow)
-}
-
-function openSocialWindow() {
-  openWindow(socialWindow)
-}
-
-function updateYokoCounter(amount, totalAmount) {
-  //counter.innerHTML = "" + amount
-  counter.innerHTML = `${amount}/${totalAmount}`
-  hintWindow.querySelector('h3').innerHTML = `Найдено ${amount} из ${totalAmount} Йоко`
-}
-
-module.exports = {
-  init,
-  onAssetsLoaded,
-  render,
-  openWindow,
-  closeWindow,
-  handleClick,
-  openLocationWindow,
-  openSocialWindow,
-  updateYokoCounter
+  updateYokoCounter(amount, totalAmount) {
+    this.counter.innerHTML = `${amount}/${totalAmount}`
+    this.windows.hint.querySelector('h3').innerHTML = `Найдено ${amount} из ${totalAmount} Йоко`
+  }
 }

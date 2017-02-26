@@ -25,8 +25,8 @@ function init() {
   Map = require('./Map')
   Map.init(container, stage)
 
-  UI = require('./UI')
-  UI.init(container.querySelector('.ui'))
+  const _UI = require('./UI')
+  UI = new _UI(container.querySelector('.ui'));
 
   Input = require('./Input')
   Input.init(container)
@@ -52,7 +52,7 @@ function render(time) {
   if (lastFrameTime) {
     const deltaTime = time - lastFrameTime
     Map.render(deltaTime, time)
-    UI.render(deltaTime, time)
+    //UI.render(deltaTime, time)
   }
 
   lastFrameTime = time
