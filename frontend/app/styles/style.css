@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'TF2Build';
-    src: url('../fonts/tf2build-webfont.woff2') format('woff2'),
-         url('../fonts/tf2build-webfont.woff') format('woff');
+    src: url('fonts/tf2build-webfont.woff2') format('woff2'),
+         url('fonts/tf2build-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -44,7 +44,7 @@
   height: 100%;
   position: absolute;
   z-index: 10;
-  background: url('../images/layout/frame.png');
+  background: url('images/layout/frame.png');
   display: none;
 }
 
@@ -54,7 +54,7 @@
   left: 68px;
   width: 186px;
   height: 122px;
-  background: url('../images/layout/logo.png');
+  background: url('images/layout/logo.png');
 }
 
 .map-container .window {
@@ -71,7 +71,7 @@
   right: 72px;
   width: 330px;
   height: 109px;
-  background: url('../images/layout/window-location-small.png');
+  background: url('images/layout/window-location-small.png');
 }
 
 .map-container .window.small h3 {
@@ -94,7 +94,7 @@
   left: 26px;
   width: 97px;
   height: 50px;
-  background: url('../images/layout/button-left-active.png');
+  background: url('images/layout/button-left-active.png');
 }
 
 .map-container .window .button.left h3 {
@@ -106,7 +106,7 @@
   right: 27px;
   width: 101px;
   height: 51px;
-  background: url('../images/layout/button-right-active.png');
+  background: url('images/layout/button-right-active.png');
 }
 
 .map-container .window .button.right h3 {
@@ -118,19 +118,19 @@
   right: 10px;
   width: 37px;
   height: 37px;
-  background: url('../images/layout/button-close-big.png');
+  background: url('images/layout/button-close-big.png');
 }
 
 .map-container .window .button.prev {
   width: 23px;
   height: 55px;
-  background: url('../images/layout/button-prev.png');
+  background: url('images/layout/button-prev.png');
 }
 
 .map-container .window .button.next {
   width: 24px;
   height: 57px;
-  background: url('../images/layout/button-next.png');
+  background: url('images/layout/button-next.png');
 }
 
 .map-container .window .button.close.small {
@@ -138,7 +138,7 @@
   right: 10px;
   width: 28px;
   height: 28px;
-  background: url('../images/layout/button-close-small.png');
+  background: url('images/layout/button-close-small.png');
 }
 
 .map-container .window.location {
@@ -146,7 +146,7 @@
   left: 377px;
   width: 451px;
   height: 227px;
-  background: url('../images/layout/window-location.png');
+  background: url('images/layout/window-location.png');
   padding: 0px 30px;
 }
 
@@ -175,7 +175,7 @@
   left: 154px;
   width: 727px;
   height: 530px;
-  background: url('../images/layout/window-episode.png');
+  background: url('images/layout/window-episode.png');
   padding: 0 86px;
 }
 
@@ -216,7 +216,7 @@
   left: 105px;
   width: 825px;
   height: 533px;
-  background: url('../images/layout/window-game.png');
+  background: url('images/layout/window-game.png');
   padding: 0 86px 0 66px;
 }
 
@@ -257,7 +257,7 @@
   left: 13px;
   width: 263px;
   height: 45px;
-  background: url("../images/layout/button-long.png");
+  background: url("images/layout/button-long.png");
   z-index: 2;
 }
 
@@ -308,7 +308,7 @@
   left: 130px;
   width: 423px;
   height: 162px;
-  background: url('../images/layout/window-hint.png');
+  background: url('images/layout/window-hint.png');
   padding: 0 40px 0 35px;
 }
 
@@ -334,7 +334,7 @@
   left: 232px;
   width: 488px;
   height: 332px;
-  background: url('../images/layout/window-social.png');
+  background: url('images/layout/window-social.png');
   padding: 0 60px 0 60px;
 }
 
@@ -419,7 +419,7 @@
   left: 6px;
   width: 122px;
   height: 75px;
-  background: url("../images/layout/counter.png");
+  background: url("images/layout/counter.png");
 }
 
 .map-container .counter .help {
@@ -428,7 +428,7 @@
   right: -5px;
   width: 43px;
   height: 34px;
-  background: url("../images/layout/counter-help.png");
+  background: url("images/layout/counter-help.png");
 }
 
 .map-container .counter .count {
@@ -451,14 +451,14 @@
   z-index: 100;
   width: 980px;
   height: 700px;
-  background: url("../images/layout/preloader-splash.png")
+  background: url("images/layout/preloader-splash.png")
 }
 
 .map-container .preloader .frame {
   position: absolute;
   width: 980px;
   height: 700px;
-  background: url("../images/layout/frame.png")
+  background: url("images/layout/frame.png")
 }
 
 .map-container .preloader .bar {
@@ -467,5 +467,5 @@
   left: 352px;
   width: 292px;
   height: 45px;
-  background: url("../images/layout/preloader-bar.png")
+  background: url("images/layout/preloader-bar.png")
 }
