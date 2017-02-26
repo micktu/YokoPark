@@ -94,7 +94,7 @@ module.exports = class {
 
         const length = this.yokos.length
 
-        if (length < 30) {
+        if (length < 1) {
           YokoPark.UI.openSocialWindow()
           this.yokos = null
           break
@@ -128,8 +128,7 @@ module.exports = class {
 
       case "waiting":
         yoko = this.activeYoko
-        const bounds = YokoPark.Map.getScreenBounds()
-        if (bounds.left > yoko.mapX || bounds.top > yoko.mapY || bounds.right < yoko.mapX || bounds.bottom < yoko.mapY) {
+        if (!YokoPark.Map.viewportContains(yoko.mapX, yoko.mapY)) {
           break
         }
 

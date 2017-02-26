@@ -80,7 +80,7 @@ module.exports = class {
       this.hitbox.bottom *= TextureData.scale
 
       this.hint = YokoPark.Map.animManager.anims[this.name + '-hint']
-      this.armHitPlayback()
+      //this.armHitPlayback()
     } else if (data.type === 'misc') {
       sprite.visible = false
     }

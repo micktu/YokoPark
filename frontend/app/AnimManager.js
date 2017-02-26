@@ -5,6 +5,7 @@ module.exports = class {
     this.container = container
 
     this.anims = {}
+    this.animList = []
 
     for (let name in TextureData.animations) {
       this.anims[name] = new Anim(name)
@@ -47,6 +48,7 @@ module.exports = class {
           break
         case 'interactive':
           c = frontContainer
+          this.animList.push(anim)        
           break
         case 'hint':
           c = hintContainer
@@ -65,6 +67,9 @@ module.exports = class {
 
     this.currentActivationIndex = 0
     //this.setNextActivation()
+
+    this.currentHintIndex = 0
+    this.armNextHint()
   }
 
   render(deltaTime) {
@@ -114,5 +119,32 @@ module.exports = class {
 
     nextAnim.play()
     this.setNextActivation()
+  }
+
+  armNextHint() {
+    const period = Data.hintPeriodMin + Math.random() * (Data.hintPeriodMax - Data.hintPeriodMin)
+    const am = this
+    setTimeout(function () { am.playNextHint() }, period)
+  }
+
+  playNextHint() {
+    for (let i = 0; i < this.animList.length; i++) {
+      const index = (i + this.currentHintIndex) % this.animList.length
+
+      const anim = this.animList[index]
+
+      const isPlaying = anim.sprite.playing || anim.isReverse || anim.hint.sprite.playing
+      if (!isPlaying) {
+        const isVisible = YokoPark.Map.viewportContains(anim.sprite.x, anim.sprite.y)
+
+        if (isVisible) {
+          this.currentHintIndex = index + 1
+          anim.hint.sprite.gotoAndPlay(0)
+          break;
+        }
+      }
+    }
+    
+    this.armNextHint()
   }
 }

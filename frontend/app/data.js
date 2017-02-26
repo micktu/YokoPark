@@ -2,8 +2,8 @@ module.exports = {
   animationReversePeriod: 5000,
   activationPeriodMin: 5000,
   activationPeriodMax: 10000,
-  hintPeriodMin: 7000,
-  hintPeriodMax: 15000,
+  hintPeriodMin: 5000,
+  hintPeriodMax: 7000,
   activationCycle: [
     'statue',
     'ship',

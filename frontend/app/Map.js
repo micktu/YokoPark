@@ -4,7 +4,7 @@ const YokoManager = require('./YokoManager')
 
 let container, tileContainer, mapGraphics, backContainer, frontContainer, hintContainer
 let animManager, locManager, yokoManager
-let isDragging, dragX, dragY, dragMapX, dragMapY, oldX, oldY, velocityX, velocityY, hoverX, hoverY
+let isDragging, dragX, dragY, dragMapX, dragMapY, oldX, oldY, velocityX, velocityY, hoverX, hoverY, viewportBounds
 const friction = 0.8
 
 function init(c, stage) {
@@ -41,8 +41,9 @@ function onAssetsLoaded(stage) {
     renderer.textureManager.updateTexture(mapTexture)
   }
 
-  tileContainer.x = -(TextureData.map.width * TextureData.scale - renderer.width) / 2
-  tileContainer.y = -(TextureData.map.height * TextureData.scale - renderer.height) / 2
+  const x = -(TextureData.map.width * TextureData.scale - renderer.width) / 2
+  const y = -(TextureData.map.height * TextureData.scale - renderer.height) / 2
+  moveViewport(x, y)
 
   animManager.onAssetsLoaded(stage)
   locManager.onAssetsLoaded()
@@ -52,8 +53,8 @@ function onAssetsLoaded(stage) {
 }
 
 function render(deltaTime, time) {
-  var c = tileContainer
-
+  const c = tileContainer
+  
   if (isDragging) {
     velocityX = c.x - oldX
     velocityY = c.y - oldY
@@ -62,13 +63,10 @@ function render(deltaTime, time) {
     oldY = c.y
   }
   else if (velocityX * velocityX + velocityY * velocityY > 1) {
-    c.x += velocityX
-    c.y += velocityY
+    moveViewport(c.x + velocityX, c.y + velocityY)
 
     velocityX *= friction
     velocityY *= friction
-
-    clampMapBounds()
   }
 
   locManager.render(deltaTime, time)
@@ -112,13 +110,31 @@ function mouseMove(x, y) {
     return
   }
 
-  var c = tileContainer
+  moveViewport(dragMapX - dragX + x, dragMapY - dragY + y)
+}
+
+function moveViewport(x, y) {
   var renderer = YokoPark.renderer
+  var c = tileContainer
 
-  c.x = dragMapX - dragX + x
-  c.y = dragMapY - dragY + y
+  // Update position
+  c.x = x
+  c.y = y
 
-  clampMapBounds()
+  // Clamp bounds
+  var mapWidth = TextureData.map.width * TextureData.scale
+  var mapHeight = TextureData.map.height * TextureData.scale
+
+  if (c.x > 0) c.x = 0
+  else if (c.x < renderer.width - mapWidth)
+    c.x = renderer.width - mapWidth
+
+  if (c.y > 0) c.y = 0
+  else if (c.y < renderer.height - mapHeight)
+    c.y = renderer.height - mapHeight
+
+  // Cache bounds
+  viewportBounds = new PIXI.Rectangle(-c.x, -c.y, -c.x + renderer.width, -c.y + renderer.height)
 }
 
 function handleClick(x, y) {
@@ -134,26 +150,9 @@ function handleClick(x, y) {
   animManager.click(mapX, mapY)
 }
 
-function clampMapBounds() {
-  var renderer = YokoPark.renderer
-  var c = tileContainer
-
-  var mapWidth = TextureData.map.width * TextureData.scale
-  var mapHeight = TextureData.map.height * TextureData.scale
-
-  if (c.x > 0) c.x = 0
-  else if (c.x < renderer.width - mapWidth)
-    c.x = renderer.width - mapWidth
-
-  if (c.y > 0) c.y = 0
-  else if (c.y < renderer.height - mapHeight)
-    c.y = renderer.height - mapHeight
-}
-
-function getScreenBounds() {
-  const r = YokoPark.renderer
-  const c = tileContainer
-  return new PIXI.Rectangle(-c.x, -c.y, -c.x + r.width, -c.y + r.height)
+function viewportContains(x, y) {
+  const b = viewportBounds
+  return b.left <= x && b.top <= y && b.right >= x || b.bottom >= y
 }
 
 module.exports = {
@@ -163,7 +162,7 @@ module.exports = {
   mouseDown,
   mouseUp,
   mouseMove,
-  getScreenBounds,
+  viewportContains,
   get animManager() { return animManager },
   get yokoManager() { return yokoManager },
   get hoverX() { return hoverX },
