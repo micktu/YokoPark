@@ -38,7 +38,7 @@ function onTouchStart(event) {
 }
 
 function onMouseDown(event) {
-  if (!(event.buttons & 1)) return
+  if (event.button !== 0) return
 
   YokoPark.Map.mouseDown(event.clientX, event.clientY)
 
@@ -54,6 +54,8 @@ function onTouchEnd(event) {
 }
 
 function onMouseUp(event) {
+  if (event.button !== 0) return
+
   YokoPark.Map.mouseUp(event.clientX, event.clientY)
 
   mousePressed = false
