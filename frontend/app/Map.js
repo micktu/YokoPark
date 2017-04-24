@@ -16,7 +16,7 @@ function init(c, stage) {
 
   for (let i = 0; i < TextureData.map.numTiles; i++) {
     var mapName = TextureData.map.name + i
-    PIXI.loader.add(mapName, 'images/textures/' + mapName + '.png', YokoPark.textureOptions)
+    PIXI.loader.add(mapName, getImagePath('textures/' + mapName + '.png'), YokoPark.textureOptions)
   }
 
   tileContainer = new PIXI.Container()

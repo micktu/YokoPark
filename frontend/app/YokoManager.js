@@ -5,19 +5,19 @@ module.exports = class {
     this.animatedYokos = []
 
     this.activeYoko = null
-    this.state = "idle"
+    this.state = 'idle'
     this.lastState = this.state
     this.stateTime = 0
 
     this.nextYokoTime = 0
     this.lastYokoIndex = 0
 
-    PIXI.loader.add('yoko-right', 'images/yoko-right-256.png')
-    PIXI.loader.add('yoko-up', 'images/yoko-up-256.png')
-    //PIXI.loader.add('yoko-jump', 'images/yoko-jump.png')
+    PIXI.loader.add('yoko-right', getImagePath('yoko-right-256.png'))
+    PIXI.loader.add('yoko-up', getImagePath('yoko-up-256.png'))
+    //PIXI.loader.add('yoko-jump', getImagePath('yoko-jump.png'))
   }
 
-  onAssetsLoaded(stage) {
+  onAssetsLoaded (stage) {
     const textureUp = PIXI.loader.resources['yoko-up'].texture
     const textureRight = PIXI.loader.resources['yoko-right'].texture
 
@@ -39,7 +39,7 @@ module.exports = class {
     this.maskRight = mask
 
     for (let i = 0; i < Data.yoko.length; i++) {
-      const yoko = Data.yoko[i];
+      const yoko = Data.yoko[i]
       yoko.mapX = yoko.x * TextureData.scale
       yoko.mapY = yoko.y * TextureData.scale
 

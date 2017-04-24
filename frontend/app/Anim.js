@@ -14,7 +14,7 @@ module.exports = class {
     this.isInteractive = data.type === 'interactive'
 
     for (let i = 0; i < this.numTextures; i++) {
-      PIXI.loader.add(name + i, 'images/textures/' + name + i + '.png', YokoPark.textureOptions)
+      PIXI.loader.add(name + i, getImagePath('textures/' + name + i + '.png'), YokoPark.textureOptions)
     }
   }
 

@@ -1,12 +1,12 @@
 module.exports = class {
-  constructor(container) {
+  constructor (container) {
     this.container = container
     this.locs = []
 
-    PIXI.loader.add('marker', 'images/layout/marker.png')
+    PIXI.loader.add('marker', getImagePath('layout/marker.png'))
   }
 
-  onAssetsLoaded() {
+  onAssetsLoaded () {
     for (let i = 0; i < Data.markers.length; i++) {
       const loc = Data.markers[i];
       loc.animationTime = 1000 * Math.random() * Math.PI / 2
@@ -24,7 +24,7 @@ module.exports = class {
     }
   }
 
-  render(deltaTime) {
+  render (deltaTime) {
     for (let i = 0; i < this.locs.length; i++) {
       const loc = this.locs[i];
       const val = Math.cos(loc.animationTime / 1000) * 2
@@ -33,9 +33,9 @@ module.exports = class {
     }
   }
 
-  handleClick(x, y) {
+  handleClick (x, y) {
     for (let i = 0; i < this.locs.length; i++) {
-      const loc = this.locs[i];
+      const loc = this.locs[i]
       var dX = x - loc.mapX
       var dY = y - loc.mapY
 

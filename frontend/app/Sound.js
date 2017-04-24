@@ -4,10 +4,10 @@ module.exports = class {
     this.jingles = []
 
     for (let i = 0; i < 3; i++) {
-      this.jingles[i] = new Howl({ src: [`sounds/Jingle_${ i + 1 }.mp3`] })
+      this.jingles[i] = new Howl({ src: [getStaticPath(`sounds/Jingle_${ i + 1 }.mp3`)] })
     }
 
-    this.music = new Howl({ src: [`sounds/Music.mp3`], autoplay: true, loop: true, volume: 0.5 })
+    this.music = new Howl({ src: [getStaticPath(`sounds/Music.mp3`)], autoplay: true, loop: true, volume: 0.5 })
   }
 
   playJingle() {
